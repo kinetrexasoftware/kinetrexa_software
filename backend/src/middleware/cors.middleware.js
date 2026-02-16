@@ -2,8 +2,12 @@ const cors = require('cors');
 const config = require('../config/env');
 
 const allowedOrigins = [
+    'https://kinetrexa.com',
+    'https://www.kinetrexa.com',
     'https://kinetrexa.netlify.app',
-    'http://localhost:3000'
+    'http://localhost:3000',
+    config.FRONTEND_URL,
+    config.CORS_ORIGIN
 ];
 
 const corsOptions = {
