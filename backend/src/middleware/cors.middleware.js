@@ -14,7 +14,7 @@ const corsOptions = {
         // Allow requests with no origin (like mobile apps or curl requests)
         if (!origin) return callback(null, true);
 
-        if (allowedOrigins.indexOf(origin) !== -1 || !config.NODE_ENV === 'production') {
+        if (allowedOrigins.indexOf(origin) !== -1 || config.NODE_ENV !== 'production') {
             callback(null, true);
         } else {
             callback(new Error('Not allowed by CORS'));
