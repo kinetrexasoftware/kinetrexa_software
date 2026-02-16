@@ -19,6 +19,10 @@ const app = express();
 // MIDDLEWARE
 // ==========================================
 
+// Enable CORS before other middleware
+app.use(corsMiddleware);
+app.options('*', corsMiddleware);
+
 // Request Logging
 app.use(requestLogger);
 
@@ -42,9 +46,6 @@ app.use(mongoSanitize());
 
 // Serve static files (uploads)
 app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
-
-// Enable CORS
-app.use(corsMiddleware);
 
 // Rate limiting
 app.use('/api', publicLimiter);
