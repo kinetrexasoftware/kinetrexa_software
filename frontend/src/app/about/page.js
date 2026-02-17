@@ -38,7 +38,7 @@ export default async function AboutPage() {
     // If c is empty, MissionVision will receive undefined/null and show nothing, complying with requirements.
 
     return (
-        <div className="min-h-screen pt-20">
+        <div className="min-h-screen">
             <AboutHero />
 
             <CompanyIntro />

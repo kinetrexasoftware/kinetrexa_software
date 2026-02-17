@@ -39,34 +39,37 @@ export default function CoreServices() {
     }
 
     return (
-        <section className="py-24 bg-[#0B1220]">
+        <section className="section-padding bg-dark-bg relative overflow-hidden">
             <div className="container-custom">
-                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
                     {services.map((service, index) => {
                         const IconComponent = iconMap[service.icon] || Layers;
                         return (
                             <motion.div
                                 key={service.id || index}
-                                initial={{ opacity: 0, y: 20 }}
+                                initial={{ opacity: 0, y: 30 }}
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
                             >
                                 <Link href={`/services/${service.slug}`} className="block group h-full">
-                                    <div className="relative h-full p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 transition-all duration-500 group-hover:-translate-y-2 group-hover:bg-white/[0.08] group-hover:border-primary-500/50 flex flex-col">
-
-                                        <div className="w-14 h-14 rounded-2xl bg-primary-500/10 flex items-center justify-center border border-primary-500/20 mb-6 group-hover:scale-110 group-hover:bg-primary-500 group-hover:text-white transition-all duration-500">
-                                            <IconComponent size={28} className="text-primary-400 group-hover:text-white" />
+                                    <div className="glass-card-hover border-white/5 p-8 h-full flex flex-col relative overflow-hidden">
+                                        <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-10 transition-opacity">
+                                            <IconComponent size={100} className="text-brand-primary transform group-hover:rotate-12 transition-transform duration-700" />
                                         </div>
 
-                                        <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-primary-400 transition-colors">
+                                        <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center border border-brand-primary/20 mb-6 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white transition-all duration-500 shadow-[0_0_20px_rgba(14,165,233,0.1)] relative z-10">
+                                            <IconComponent size={28} className="text-brand-primary group-hover:text-white transition-colors" />
+                                        </div>
+
+                                        <h3 className="text-2xl font-bold mb-4 text-text-primary group-hover:text-brand-primary transition-colors relative z-10">
                                             {service.title}
                                         </h3>
-                                        <p className="text-gray-400 mb-8 leading-relaxed flex-grow">
+                                        <p className="text-text-secondary mb-8 leading-relaxed flex-grow relative z-10">
                                             {service.shortDescription || service.description}
                                         </p>
 
-                                        <div className="flex items-center gap-2 text-primary-400 font-semibold text-sm group-hover:gap-3 transition-all">
+                                        <div className="flex items-center gap-2 text-brand-primary font-bold text-sm uppercase tracking-wide group-hover:gap-3 transition-all relative z-10">
                                             <span>Explore Details</span>
                                             <ArrowRight size={16} />
                                         </div>
