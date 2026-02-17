@@ -143,6 +143,7 @@ export const fetchAdminProducts = async () => {
 export const createProduct = (data) => adminApi.post('/products', data);
 export const updateProduct = (id, data) => adminApi.put(`/products/${id}`, data);
 export const deleteProduct = (id) => adminApi.delete(`/products/${id}`);
+export const reorderProducts = (products) => adminApi.put('/products/reorder', { products });
 
 // --- Services ---
 export const fetchAdminServices = () => adminApi.get('/services');

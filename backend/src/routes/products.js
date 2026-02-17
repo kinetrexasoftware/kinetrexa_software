@@ -5,7 +5,9 @@ const {
     getProduct,
     createProduct,
     updateProduct,
-    deleteProduct
+    deleteProduct,
+    reorderProducts,
+    getProductBySlug
 } = require('../controllers/products');
 
 const router = express.Router();
@@ -14,6 +16,8 @@ const { protect } = require('../middleware/auth.middleware');
 const authorize = require('../middleware/role.middleware');
 
 router.route('/public').get(getPublicProducts);
+router.route('/slug/:slug').get(getProductBySlug);
+router.route('/reorder').put(protect, authorize('admin', 'super_admin'), reorderProducts);
 
 router.route('/')
     .get(getProducts)

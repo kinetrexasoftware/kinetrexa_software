@@ -15,14 +15,18 @@ const ProductSchema = new mongoose.Schema({
         required: [true, 'Please add a tagline'],
         maxlength: [100, 'Tagline can not be more than 100 characters']
     },
-    description: {
+    shortDescription: {
         type: String,
-        required: [true, 'Please add a description'],
-        maxlength: [500, 'Description can not be more than 500 characters']
+        required: [true, 'Please add a short description'],
+        maxlength: [200, 'Short description can not be more than 200 characters']
     },
-    icon: {
+    longDescription: {
         type: String,
-        default: 'Box' // Default Lucide icon name
+        required: [true, 'Please add a long description']
+    },
+    logo: {
+        type: String,
+        default: 'Box' // Lucide icon name or image URL
     },
     status: {
         type: String,
@@ -32,12 +36,19 @@ const ProductSchema = new mongoose.Schema({
     category: {
         type: String,
         required: true,
-        enum: ['SaaS', 'Enterprise', 'Tool', 'Infrastructure', 'Other'],
         default: 'SaaS'
     },
     features: [String],
-    link: String,
-    active: {
+    gradientTheme: {
+        type: String,
+        default: 'from-blue-600 to-cyan-500'
+    },
+    websiteLink: String,
+    isFeatured: {
+        type: Boolean,
+        default: false
+    },
+    isActive: {
         type: Boolean,
         default: true
     },

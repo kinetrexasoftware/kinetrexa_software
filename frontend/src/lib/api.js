@@ -49,6 +49,7 @@ export const productAPI = {
     getAll: () => api.get('/products'),
     getPublic: () => api.get('/products/public'),
     getOne: (id) => api.get(`/products/${id}`),
+    getBySlug: (slug) => api.get(`/products/slug/${slug}`),
 };
 
 export const serviceAPI = {
