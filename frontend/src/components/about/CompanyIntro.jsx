@@ -3,23 +3,32 @@ import { motion } from 'framer-motion';
 
 export default function CompanyIntro() {
     return (
-        <section className="py-16 md:py-24 bg-white dark:bg-dark-bg">
+        <section className="section-padding relative overflow-hidden bg-dark-bg">
+            {/* Ambient background glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[500px] h-[500px] bg-brand-primary/[0.03] blur-[100px] rounded-full -z-10" />
+
             <div className="container-custom">
-                <div className="max-w-3xl mx-auto text-center">
-                    <motion.h2
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        viewport={{ once: true }}
-                        className="text-3xl md:text-4xl font-bold mb-6"
-                    >
-                        Our Story
-                    </motion.h2>
+                <div className="max-w-4xl mx-auto text-center">
                     <motion.div
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="space-y-6 text-gray-600 dark:text-gray-400 text-lg leading-relaxed"
+                        className="mb-12"
+                    >
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-6">
+                            Our Story
+                        </span>
+                        <h2 className="text-4xl md:text-6xl font-bold brand-gradient-text leading-tight">
+                            Building the Future, <br /> One Solution at a Time.
+                        </h2>
+                    </motion.div>
+
+                    <motion.div
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        transition={{ delay: 0.2 }}
+                        className="space-y-8 text-text-secondary text-xl leading-relaxed max-w-3xl mx-auto"
                     >
                         <p>
                             KineTrexa started with a simple yet ambitious goal: to bridge the gap between complex technology and real-world business needs. We saw too many companies struggling with bloated software and confusing processes. We knew there had to be a better way.

@@ -16,30 +16,30 @@ export default function OurValues({ content }) {
     const valuesToDisplay = values.length > 0 ? values : [];
 
     return (
-        <section className="section">
+        <section className="section-padding relative overflow-hidden bg-dark-bg">
             <div className="container-custom">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">{title}</h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-400">{subtitle}</p>
+                <div className="text-center mb-20">
+                    <h2 className="text-4xl md:text-5xl font-bold mb-6 brand-gradient-text">{title}</h2>
+                    <p className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">{subtitle}</p>
                 </div>
 
-                <div className="flex flex-wrap justify-center gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
                     {valuesToDisplay.map((val, index) => {
                         const IconComponent = iconMap[val.icon] || ShieldCheck;
                         return (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, scale: 0.9 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
+                                initial={{ opacity: 0, y: 30 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="w-full sm:w-[calc(50%-12px)] lg:w-[calc(20%-20px)] p-6 rounded-xl text-center bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 shadow-sm hover:shadow-md transition-all"
+                                className="glass-card-hover border-white/5 p-8 text-center group flex flex-col items-center"
                             >
-                                <div className="w-12 h-12 mx-auto bg-primary-100 dark:bg-primary-900/30 text-primary-600 rounded-full flex items-center justify-center mb-4">
-                                    <IconComponent size={24} />
+                                <div className="w-14 h-14 bg-brand-primary/10 text-brand-primary rounded-2xl flex items-center justify-center mb-6 shadow-[0_0_20px_rgba(14,165,233,0.1)] group-hover:scale-110 transition-transform">
+                                    <IconComponent size={28} />
                                 </div>
-                                <h3 className="font-bold mb-2">{val.name}</h3>
-                                <p className="text-sm text-gray-600 dark:text-gray-400">{val.desc}</p>
+                                <h3 className="text-xl font-bold mb-3 text-text-primary">{val.name}</h3>
+                                <p className="text-text-secondary text-sm leading-relaxed">{val.desc}</p>
                             </motion.div>
                         );
                     })}
