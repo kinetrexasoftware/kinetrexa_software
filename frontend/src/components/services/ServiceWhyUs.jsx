@@ -15,32 +15,33 @@ const reasons = [
 
 export default function ServiceWhyUs() {
     return (
-        <section className="section">
+        <section className="section-padding relative overflow-hidden">
             <div className="container-custom">
-                <div className="bg-primary-900 rounded-3xl p-8 md:p-16 text-white text-center relative overflow-hidden">
-                    {/* Background blob */}
-                    <div className="absolute top-0 right-0 w-96 h-96 bg-secondary-600/20 rounded-full blur-3xl translate-x-1/2 -translate-y-1/2" />
+                <div className="glass-card p-8 md:p-20 relative overflow-hidden">
+                    {/* Background Glows */}
+                    <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary/5 blur-[120px] rounded-full -z-10" />
+                    <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-primary/[0.02] blur-[100px] rounded-full -z-10" />
 
                     <div className="relative z-10">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">Why Partner With Us?</h2>
-                        <p className="text-lg text-gray-300 max-w-2xl mx-auto mb-12">
-                            We bring more than just coding skills to the table. We bring a partnership mindset focused on your long-term success.
+                        <h2 className="text-4xl md:text-5xl font-bold mb-8 brand-gradient-text leading-tight">Why Partner With Us?</h2>
+                        <p className="text-xl text-text-secondary max-w-2xl mx-auto mb-16 leading-relaxed">
+                            We bring more than just technical skills. We bring a partnership mindset focused on your long-term scalability and business growth.
                         </p>
 
-                        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-left max-w-5xl mx-auto">
+                        <div className="grid sm:grid-cols-2 md:grid-cols-4 gap-6 text-left max-w-6xl mx-auto">
                             {reasons.map((reason, index) => (
                                 <motion.div
                                     key={index}
-                                    initial={{ opacity: 0, y: 10 }}
-                                    whileInView={{ opacity: 1, y: 0 }}
+                                    initial={{ opacity: 0, scale: 0.95 }}
+                                    whileInView={{ opacity: 1, scale: 1 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: index * 0.05 }}
-                                    className="flex items-center gap-3 bg-white/10 p-4 rounded-lg backdrop-blur-sm"
+                                    className="flex items-center gap-4 bg-white/5 border border-white/5 p-5 rounded-2xl backdrop-blur-md group hover:border-brand-primary/30 transition-all duration-300"
                                 >
-                                    <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0">
-                                        <Check className="w-4 h-4 text-green-400" />
+                                    <div className="w-10 h-10 rounded-xl bg-brand-primary/10 flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform">
+                                        <Check className="w-5 h-5 text-brand-primary" />
                                     </div>
-                                    <span className="font-medium text-sm">{reason}</span>
+                                    <span className="font-bold text-sm text-text-primary">{reason}</span>
                                 </motion.div>
                             ))}
                         </div>

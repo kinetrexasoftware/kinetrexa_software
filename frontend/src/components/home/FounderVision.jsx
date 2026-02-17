@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { Quote } from 'lucide-react';
+import { Quote, Sparkles } from 'lucide-react';
 
 export default function FounderVision({ content }) {
     const {
@@ -10,28 +10,43 @@ export default function FounderVision({ content }) {
     } = content || {};
 
     return (
-        <section className="py-20 bg-dark-bg text-white relative overflow-hidden">
-            <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-primary-900/20 to-transparent pointer-events-none" />
+        <section className="section-padding relative overflow-hidden">
             <div className="container-custom relative z-10">
-                <div className="max-w-4xl mx-auto text-center">
+                <div className="max-w-5xl mx-auto text-center">
                     <motion.div
-                        initial={{ opacity: 0, scale: 0.9 }}
-                        whileInView={{ opacity: 1, scale: 1 }}
+                        initial={{ opacity: 0, y: 30 }}
+                        whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
+                        transition={{ duration: 0.8 }}
                     >
-                        <Quote className="w-12 h-12 text-primary-500 mx-auto mb-8 opacity-50" />
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-12"
+                        >
+                            <Sparkles size={12} className="animate-pulse" />
+                            <span>Leadership Vision</span>
+                        </motion.div>
 
-                        <h2 className="text-2xl md:text-4xl font-light italic leading-relaxed mb-8">
-                            "{quote}"
-                        </h2>
+                        <div className="relative mb-12">
+                            <Quote className="absolute -top-12 -left-4 w-24 h-24 text-brand-primary/5 -z-10" />
+                            <h2 className="text-3xl md:text-5xl font-light italic leading-tight text-text-primary glass-card p-8 md:p-12 border-white/5 bg-brand-primary/[0.02]">
+                                "{quote}"
+                            </h2>
+                            <Quote className="absolute -bottom-12 -right-4 w-24 h-24 text-brand-primary/5 rotate-180 -z-10" />
+                        </div>
 
-                        <div>
-                            <h3 className="text-xl font-bold">{author}</h3>
-                            <p className="text-primary-400">{designation}</p>
+                        <div className="space-y-2">
+                            <h3 className="text-2xl font-bold brand-gradient-text tracking-tight">{author}</h3>
+                            <p className="text-brand-primary font-bold uppercase tracking-[0.2em] text-xs">{designation}</p>
                         </div>
                     </motion.div>
                 </div>
             </div>
+
+            {/* Ambient glows */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-brand-primary/5 blur-[150px] -z-10 rounded-[100%]" />
         </section>
     );
 }

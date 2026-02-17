@@ -3,7 +3,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { internshipAPI } from '@/lib/api';
-import { Loader2 } from 'lucide-react';
+import { Loader2, Sparkles } from 'lucide-react';
 import InternshipCard from '@/components/internship/InternshipCard';
 import ApplicationModal from '@/components/internship/ApplicationModal';
 import InternshipHero from '@/components/internship/InternshipHero';
@@ -26,7 +26,7 @@ export default function InternshipPage() {
     const fetchInternships = async () => {
         try {
             setLoading(true);
-            const data = await internshipAPI.getAll({}); // Fetch all internships
+            const data = await internshipAPI.getAll({});
             setInternships(data.internships || []);
         } catch (error) {
             console.error('Error fetching internships:', error);
@@ -46,28 +46,40 @@ export default function InternshipPage() {
     };
 
     return (
-        <div className="min-h-screen pt-20">
+        <div className="min-h-screen">
             <InternshipHero />
 
             {/* Internship Opportunities Section */}
-            <section id="openings" className="section bg-gray-50 dark:bg-gray-800/10">
-                <div className="container-custom">
-                    <div className="text-center mb-16">
-                        <h2 className="text-3xl md:text-4xl font-bold mb-4">Current Openings</h2>
-                        <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
-                            Find the role that fits you. We are hiring for multiple domains.
+            <section id="openings" className="section-padding relative overflow-hidden">
+                {/* Background Glow */}
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-brand-primary/[0.03] blur-[120px] -z-10" />
+
+                <div className="container-custom relative z-10">
+                    <div className="text-center mb-20">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-6"
+                        >
+                            <Sparkles size={12} className="animate-pulse" />
+                            <span>Exploration Window</span>
+                        </motion.div>
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 brand-gradient-text tracking-tight">Current Openings</h2>
+                        <p className="text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed">
+                            Find the specialized role that aligns with your career goals. We are currently accepting applications for the following cohorts.
                         </p>
                     </div>
 
                     {loading ? (
-                        <div className="flex justify-center items-center py-20">
-                            <Loader2 className="w-12 h-12 animate-spin text-primary-600" />
+                        <div className="flex justify-center items-center py-32">
+                            <Loader2 className="w-12 h-12 animate-spin text-brand-primary" />
                         </div>
                     ) : internships.length === 0 ? (
-                        <div className="text-center py-20 bg-white dark:bg-gray-800 rounded-2xl border border-gray-100 dark:border-gray-700">
-                            <h3 className="text-xl font-bold mb-2">No Openings Currently</h3>
-                            <p className="text-gray-600 dark:text-gray-400">
-                                Please check back later or subscribe to our newsletter for updates.
+                        <div className="glass-card p-20 text-center border-white/5">
+                            <h3 className="text-2xl font-bold mb-4 text-text-primary">No Active Openings</h3>
+                            <p className="text-text-secondary max-w-md mx-auto">
+                                All our current cohorts are full. Please check back next week or join our waitlist for upcoming specializations.
                             </p>
                         </div>
                     ) : (
@@ -75,7 +87,7 @@ export default function InternshipPage() {
                             {internships.map((internship, index) => (
                                 <motion.div
                                     key={internship.id || internship._id}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
                                     transition={{ delay: index * 0.1 }}

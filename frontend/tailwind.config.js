@@ -9,6 +9,17 @@ module.exports = {
     theme: {
         extend: {
             colors: {
+                brand: {
+                    primary: '#0EA5E9',
+                    glow: 'rgba(14,165,233,0.35)',
+                },
+                dark: {
+                    bg: '#0B1220',
+                    secondary: '#0E1A2B',
+                    surface: 'rgba(255, 255, 255, 0.04)',
+                    'surface-hover': 'rgba(255, 255, 255, 0.06)',
+                    border: 'rgba(255, 255, 255, 0.08)',
+                },
                 primary: {
                     50: '#f0f9ff',
                     100: '#e0f2fe',
@@ -21,24 +32,6 @@ module.exports = {
                     800: '#075985',
                     900: '#0c4a6e',
                     950: '#082f49',
-                },
-                secondary: {
-                    50: '#f5f3ff',
-                    100: '#ede9fe',
-                    200: '#ddd6fe',
-                    300: '#c4b5fd',
-                    400: '#a78bfa',
-                    500: '#8b5cf6',
-                    600: '#7c3aed',
-                    700: '#6d28d9',
-                    800: '#5b21b6',
-                    900: '#4c1d95',
-                    950: '#2e1065',
-                },
-                dark: {
-                    bg: '#0f172a',
-                    card: '#1e293b',
-                    border: '#334155',
                 }
             },
             fontFamily: {
@@ -47,6 +40,7 @@ module.exports = {
             animation: {
                 marquee: 'marquee 25s linear infinite',
                 marquee2: 'marquee2 25s linear infinite',
+                'pulse-slow': 'pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite',
             },
             keyframes: {
                 marquee: {
@@ -58,6 +52,9 @@ module.exports = {
                     '100%': { transform: 'translateX(0%)' },
                 },
             },
+            backdropBlur: {
+                xs: '2px',
+            }
         },
     },
     plugins: [],

@@ -1,30 +1,36 @@
 'use client';
 import { motion } from 'framer-motion';
+import { Sparkles } from 'lucide-react';
 
 export default function ServicesHero() {
     return (
-        <section className="relative pt-32 pb-20 lg:pt-40 lg:pb-28 overflow-hidden bg-dark-bg">
-            {/* Background Gradients */}
-            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary-900/20 rounded-full blur-3xl -z-10" />
-            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-secondary-900/20 rounded-full blur-3xl -z-10" />
+        <section className="relative pt-32 pb-20 lg:pt-48 lg:pb-32 overflow-hidden">
+            {/* Background Ambient Glows */}
+            <div className="absolute top-0 right-0 w-[600px] h-[600px] bg-brand-primary/10 rounded-full blur-[120px] -z-10" />
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-primary/5 rounded-full blur-[100px] -z-10" />
 
             <div className="container-custom relative z-10 text-center">
                 <motion.div
-                    initial={{ opacity: 0, y: 20 }}
+                    initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="max-w-4xl mx-auto"
                 >
-                    <span className="inline-block py-1 px-3 rounded-full bg-primary-900/30 border border-primary-500/30 text-primary-400 font-semibold text-sm mb-6">
-                        OUR EXPERTISE
-                    </span>
-                    <h1 className="text-4xl md:text-6xl font-bold mb-6 tracking-tight text-white">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-8"
+                    >
+                        <Sparkles size={12} className="animate-pulse" />
+                        <span>Our Technical Expertise</span>
+                    </motion.div>
+
+                    <h1 className="text-4xl md:text-7xl font-bold mb-8 tracking-tight text-text-primary brand-gradient-text leading-tight">
                         Digital Solutions Built for <br />
-                        <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary-400 to-secondary-400">
-                            Scale & Performance
-                        </span>
+                        Scale & Performance
                     </h1>
-                    <p className="text-xl text-gray-400 max-w-2xl mx-auto leading-relaxed">
-                        From MVP to Enterprise, we build technology that drives your business forward. Reliable code, modern architecture, and user-centric design.
+
+                    <p className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+                        From disruptive MVPs to enterprise-grade systems, we deliver high-performance architecture, clean code, and user-centric design that propels your growth.
                     </p>
                 </motion.div>
             </div>

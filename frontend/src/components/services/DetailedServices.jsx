@@ -23,13 +23,13 @@ const ServiceSection = ({ title, desc, points, ctaText, ctaLink, align = "left",
                         <ul className="space-y-4 mb-10">
                             {points.map((point, i) => (
                                 <li key={i} className="flex items-start gap-3">
-                                    <CheckCircle2 className="w-5 h-5 text-primary-600 dark:text-primary-400 flex-shrink-0 mt-1" />
-                                    <span className="text-gray-700 dark:text-gray-300">{point}</span>
+                                    <CheckCircle2 className="w-5 h-5 text-brand-primary flex-shrink-0 mt-1" />
+                                    <span className="text-text-secondary">{point}</span>
                                 </li>
                             ))}
                         </ul>
                         <Link href={ctaLink || "/contact"}>
-                            <Button size="lg" className="group">
+                            <Button size="lg" variant="primary" className="group h-14 px-8">
                                 {ctaText}
                                 <ArrowRight className="w-4 h-4 ml-2 group-hover:translate-x-1 transition-transform" />
                             </Button>
@@ -43,13 +43,13 @@ const ServiceSection = ({ title, desc, points, ctaText, ctaLink, align = "left",
                         viewport={{ once: true }}
                         className="flex-1 w-full"
                     >
-                        <div className={`aspect-square md:aspect-video lg:aspect-square rounded-3xl overflow-hidden relative bg-gradient-to-br from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-900 flex items-center justify-center`}>
+                        <div className={`aspect-square md:aspect-video lg:aspect-square rounded-3xl overflow-hidden relative glass-card-hover border-white/5 flex items-center justify-center`}>
                             <div className="text-center p-8">
-                                <span className="text-xl font-bold text-gray-400/50 uppercase tracking-widest">{title} Illustration</span>
+                                <span className="text-xl font-bold text-text-muted uppercase tracking-widest">{title} Illustration</span>
                             </div>
                             {/* Decorative Elements */}
-                            <div className="absolute top-10 left-10 w-20 h-20 bg-primary-500/10 rounded-full blur-xl" />
-                            <div className="absolute bottom-10 right-10 w-32 h-32 bg-secondary-500/10 rounded-full blur-xl" />
+                            <div className="absolute top-10 left-10 w-20 h-20 bg-brand-primary/10 rounded-full blur-xl" />
+                            <div className="absolute bottom-10 right-10 w-32 h-32 bg-brand-primary/[0.05] rounded-full blur-xl" />
                         </div>
                     </motion.div>
                 </div>

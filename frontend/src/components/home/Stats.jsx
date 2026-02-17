@@ -10,8 +10,11 @@ const stats = [
 
 export default function Stats() {
     return (
-        <section className="py-12 border-y border-gray-100 dark:border-gray-800 bg-gray-50/50 dark:bg-gray-900/50">
-            <div className="container-custom">
+        <section className="py-16 relative overflow-hidden">
+            {/* Background Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-brand-primary/[0.02] blur-[100px] -z-10" />
+
+            <div className="container-custom relative z-10">
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                     {stats.map((stat, index) => (
                         <motion.div
@@ -22,10 +25,10 @@ export default function Stats() {
                             transition={{ delay: index * 0.1 }}
                             className="text-center"
                         >
-                            <h3 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary-600 to-secondary-600 mb-2">
+                            <h3 className="text-4xl md:text-5xl font-black brand-gradient-text mb-2">
                                 {stat.value}
                             </h3>
-                            <p className="text-gray-600 dark:text-gray-400 font-medium">
+                            <p className="text-text-muted uppercase tracking-[0.2em] text-[10px] font-bold">
                                 {stat.label}
                             </p>
                         </motion.div>

@@ -1,20 +1,16 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
-import axios from 'axios';
+import { ArrowRight, Sparkles } from 'lucide-react';
 
 export default function Hero({ content }) {
-    // defaults
     const {
         title = 'Building the Future of Digital Innovation',
         subtitle = 'Web Apps • Mobile Apps • SaaS Products • Training • Internships',
         ctaText = 'Hire Us'
     } = content || {};
 
-    // Parse HTML for subtitle if it comes from rich text editor
     const createMarkup = (html) => {
         return { __html: html };
     };
@@ -24,34 +20,38 @@ export default function Hero({ content }) {
             <div className="container-custom relative z-10">
                 <div className="max-w-5xl mx-auto text-center">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
+                        initial={{ opacity: 0, y: 30 }}
                         animate={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.5 }}
+                        transition={{ duration: 0.8 }}
                     >
-                        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            animate={{ opacity: 1, scale: 1 }}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-8"
+                        >
+                            <Sparkles size={12} className="animate-pulse" />
+                            <span>Innovating the Digital Frontier</span>
+                        </motion.div>
+
+                        <h1 className="text-5xl md:text-7xl font-bold tracking-tight mb-8 leading-tight brand-gradient-text">
                             {title}
                         </h1>
 
                         <div
-                            className="text-xl md:text-2xl text-gray-600 dark:text-gray-300 mb-10 max-w-3xl mx-auto leading-relaxed prose dark:prose-invert"
+                            className="text-xl md:text-2xl text-text-secondary mb-12 max-w-3xl mx-auto leading-relaxed"
                             dangerouslySetInnerHTML={createMarkup(subtitle)}
                         />
 
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                            <Link href="/contact">
-                                <Button size="lg" className="w-full sm:w-auto text-lg px-8 h-12 shadow-lg shadow-primary-500/25">
+                        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                            <Link href="/contact" className="w-full sm:w-auto">
+                                <Button size="lg" className="w-full sm:w-auto h-14 px-10">
                                     {ctaText}
                                     <ArrowRight className="ml-2 w-5 h-5" />
                                 </Button>
                             </Link>
-                            <Link href="#products">
-                                <Button variant="secondary" size="lg" className="w-full sm:w-auto text-lg px-8 h-12">
+                            <Link href="#products" className="w-full sm:w-auto">
+                                <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-10">
                                     Explore Products
-                                </Button>
-                            </Link>
-                            <Link href="/internship">
-                                <Button variant="outline" size="lg" className="w-full sm:w-auto text-lg px-8 h-12">
-                                    Apply for Internship
                                 </Button>
                             </Link>
                         </div>
@@ -59,10 +59,10 @@ export default function Hero({ content }) {
                 </div>
             </div>
 
-            {/* Background elements */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-primary-500/10 rounded-full blur-3xl -z-10 animate-pulse" />
-            <div className="absolute top-0 right-0 w-[400px] h-[400px] bg-secondary-500/10 rounded-full blur-3xl -z-10" />
-            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-blue-500/10 rounded-full blur-3xl -z-10" />
+            {/* Ambient Background Elements */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-brand-primary/10 rounded-full blur-[120px] -z-10 animate-pulse-slow" />
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary/5 rounded-full blur-[100px] -z-10" />
+            <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-brand-primary/5 rounded-full blur-[80px] -z-10" />
         </section>
     );
 }

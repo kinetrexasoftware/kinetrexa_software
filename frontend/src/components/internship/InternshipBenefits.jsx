@@ -36,21 +36,22 @@ export default function InternshipBenefits() {
                     </p>
                 </div>
 
-                <div className="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+                <div className="grid md:grid-cols-2 gap-12 max-w-5xl mx-auto">
                     {benefits.map((benefit, index) => (
                         <motion.div
                             key={index}
-                            initial={{ opacity: 0, x: index % 2 === 0 ? -20 : 20 }}
-                            whileInView={{ opacity: 1, x: 0 }}
+                            initial={{ opacity: 0, y: 20 }}
+                            whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
-                            className="flex gap-4 items-start"
+                            transition={{ delay: index * 0.1 }}
+                            className="flex gap-6 items-start p-6 rounded-2xl hover:bg-white/[0.02] transition-colors"
                         >
-                            <div className="w-12 h-12 bg-secondary-100 dark:bg-secondary-900/30 text-secondary-600 rounded-full flex items-center justify-center flex-shrink-0">
-                                <benefit.icon size={24} />
+                            <div className="w-14 h-14 bg-brand-primary/10 text-brand-primary rounded-2xl flex items-center justify-center flex-shrink-0 shadow-[0_0_20px_rgba(14,165,233,0.1)]">
+                                <benefit.icon size={28} />
                             </div>
                             <div>
-                                <h3 className="text-xl font-bold mb-2">{benefit.title}</h3>
-                                <p className="text-gray-600 dark:text-gray-400">
+                                <h3 className="text-2xl font-bold mb-3 text-text-primary">{benefit.title}</h3>
+                                <p className="text-lg text-text-secondary leading-relaxed">
                                     {benefit.desc}
                                 </p>
                             </div>

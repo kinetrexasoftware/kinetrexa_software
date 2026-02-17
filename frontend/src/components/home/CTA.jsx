@@ -1,67 +1,65 @@
 'use client';
-
 import { motion } from 'framer-motion';
-import { useInView } from 'framer-motion';
-import { useRef } from 'react';
 import Link from 'next/link';
-import { ArrowRight, Sparkles } from 'lucide-react';
+import { ArrowRight, Sparkles, Send } from 'lucide-react';
 import Button from '@/components/ui/Button';
 
 export default function CTA() {
-    const ref = useRef(null);
-    const isInView = useInView(ref, { once: true });
-
     return (
-        <section className="section relative overflow-hidden py-24">
-            {/* Animated background */}
-            <div className="absolute inset-0 bg-gradient-to-br from-primary-600 via-primary-700 to-secondary-800" />
-
+        <section className="section-padding relative overflow-hidden">
             <div className="container-custom relative z-10">
-                <motion.div
-                    ref={ref}
-                    initial={{ opacity: 0, y: 30 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.6 }}
-                    className="text-center max-w-4xl mx-auto text-white"
-                >
-                    <h2 className="text-3xl md:text-5xl font-bold mb-8">
-                        Ready to Build the Extraordinary?
-                    </h2>
+                <div className="relative glass-card p-12 md:p-20 border-white/5 overflow-hidden group">
+                    {/* Animated background highlights */}
+                    <div className="absolute -top-24 -right-24 w-96 h-96 bg-brand-primary/20 blur-[100px] rounded-full group-hover:bg-brand-primary/30 transition-all duration-700" />
+                    <div className="absolute -bottom-24 -left-24 w-96 h-96 bg-brand-primary/10 blur-[100px] rounded-full" />
 
-                    <p className="text-xl mb-10 text-white/90 max-w-2xl mx-auto">
-                        Whether you need a cutting-edge product or want to kickstart your career, KineTrexa is your partner in success.
-                    </p>
+                    <div className="relative z-10 text-center max-w-4xl mx-auto">
+                        <motion.div
+                            initial={{ opacity: 0, scale: 0.9 }}
+                            whileInView={{ opacity: 1, scale: 1 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-8"
+                        >
+                            <Sparkles size={12} className="animate-pulse" />
+                            <span>Ready to Transform?</span>
+                        </motion.div>
 
-                    <div className="flex flex-col sm:flex-row gap-4 justify-center">
-                        <Link href="/contact">
-                            <Button
-                                size="lg"
-                                className="bg-white text-primary-700 hover:bg-gray-100 shadow-xl border-2 border-transparent w-full sm:w-auto"
-                            >
-                                Start a Project
-                            </Button>
-                        </Link>
-                        <Link href="/contact">
-                            <Button
-                                variant="outline"
-                                size="lg"
-                                className="border-2 border-white text-white hover:bg-white/10 w-full sm:w-auto"
-                            >
-                                Contact Us
-                            </Button>
-                        </Link>
-                        <Link href="/internship">
-                            <Button
-                                variant="outline"
-                                size="lg"
-                                className="border-2 border-white/50 text-white hover:bg-white/10 w-full sm:w-auto"
-                            >
-                                Join as Intern
-                            </Button>
-                        </Link>
+                        <h2 className="text-4xl md:text-6xl font-bold mb-8 brand-gradient-text tracking-tight">
+                            Build the Extraordinary
+                        </h2>
+
+                        <p className="text-xl mb-12 text-text-secondary max-w-2xl mx-auto leading-relaxed">
+                            Whether you need a cutting-edge digital product or want to kickstart your career with expert mentorship, KineTrexa is your bridge to the future.
+                        </p>
+
+                        <div className="flex flex-col sm:flex-row gap-6 justify-center items-center">
+                            <Link href="/contact" className="w-full sm:w-auto">
+                                <Button
+                                    size="lg"
+                                    variant="primary"
+                                    className="w-full h-14 px-10 shadow-xl shadow-brand-primary/20"
+                                >
+                                    Start a Project
+                                    <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                                </Button>
+                            </Link>
+                            <Link href="/internship" className="w-full sm:w-auto">
+                                <Button
+                                    variant="outline"
+                                    size="lg"
+                                    className="w-full h-14 px-10 border-white/10"
+                                >
+                                    Join as Intern
+                                    <Send className="ml-2 w-4 h-4 group-hover:-translate-y-1 group-hover:translate-x-1 transition-transform" />
+                                </Button>
+                            </Link>
+                        </div>
                     </div>
-                </motion.div>
+                </div>
             </div>
+
+            {/* Ambient Background Glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1200px] h-[600px] bg-brand-primary/5 blur-[150px] -z-10 rounded-[100%]" />
         </section>
     );
 }

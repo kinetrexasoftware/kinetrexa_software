@@ -1,15 +1,12 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { CheckCircle2, CloudLightning, ShieldCheck, Users, Clock, HeartHandshake, Zap, Award, BarChart, Lock, Globe } from 'lucide-react';
-import { contentAPI } from '@/lib/api';
+import { CheckCircle2, CloudLightning, ShieldCheck, Users, Clock, HeartHandshake, Zap, Award, BarChart, Lock, Globe, Sparkles } from 'lucide-react';
 
 const iconMap = {
     CheckCircle2, CloudLightning, ShieldCheck, Users, Clock, HeartHandshake, Zap, Award, BarChart, Lock, Globe
 };
 
 export default function WhyChooseUs({ content }) {
-    // No internal state needed, usage of content prop
     const {
         title = 'Why Choose KineTrexa?',
         subtitle = 'We combine technical expertise with a commitment to your growth.',
@@ -19,13 +16,35 @@ export default function WhyChooseUs({ content }) {
     if (!items || items.length === 0) return null;
 
     return (
-        <section className="section bg-white dark:bg-dark-bg">
-            <div className="container-custom">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">{title}</h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        <section className="section-padding relative overflow-hidden">
+            <div className="container-custom relative z-10">
+                <div className="text-center mb-20">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-6"
+                    >
+                        <Sparkles size={12} className="animate-pulse" />
+                        <span>Our Core Value</span>
+                    </motion.div>
+
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-4xl md:text-5xl font-bold mb-6 brand-gradient-text"
+                    >
+                        {title}
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed"
+                    >
                         {subtitle}
-                    </p>
+                    </motion.p>
                 </div>
 
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -35,17 +54,19 @@ export default function WhyChooseUs({ content }) {
                         return (
                             <motion.div
                                 key={index}
-                                initial={{ opacity: 0, scale: 0.95 }}
-                                whileInView={{ opacity: 1, scale: 1 }}
+                                initial={{ opacity: 0, y: 20 }}
+                                whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
-                                className="p-6 rounded-2xl bg-gray-50 dark:bg-gray-800/50 hover:bg-white dark:hover:bg-gray-800 border border-transparent hover:border-gray-200 dark:hover:border-gray-700 shadow-sm hover:shadow-md transition-all duration-300"
+                                className="glass-card-hover p-8 border-white/5"
                             >
-                                <div className="w-12 h-12 bg-secondary-100 dark:bg-secondary-900/30 text-secondary-600 rounded-xl flex items-center justify-center mb-4">
+                                <div className="w-12 h-12 bg-brand-primary/10 text-brand-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-brand-primary/20 transition-all duration-300">
                                     <IconComponent className="w-6 h-6" />
                                 </div>
-                                <h3 className="text-xl font-bold mb-2">{reason.title}</h3>
-                                <p className="text-gray-600 dark:text-gray-400">
+                                <h3 className="text-xl font-bold mb-4 text-text-primary group-hover:text-brand-primary transition-colors">
+                                    {reason.title}
+                                </h3>
+                                <p className="text-text-secondary leading-relaxed">
                                     {reason.desc}
                                 </p>
                             </motion.div>
@@ -53,6 +74,9 @@ export default function WhyChooseUs({ content }) {
                     })}
                 </div>
             </div>
+
+            {/* Subtle background glow */}
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full bg-brand-primary/[0.02] blur-[150px] -z-10 pointer-events-none" />
         </section>
     );
 }

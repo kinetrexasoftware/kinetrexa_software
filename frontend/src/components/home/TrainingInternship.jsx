@@ -1,6 +1,6 @@
 'use client';
 import { motion } from 'framer-motion';
-import { GraduationCap, Briefcase, Award, Users } from 'lucide-react';
+import { GraduationCap, Briefcase, Award, Users, ChevronRight, Sparkles, CheckCircle2 } from 'lucide-react';
 import Button from '@/components/ui/Button';
 import Link from 'next/link';
 
@@ -13,37 +13,58 @@ export default function TrainingInternship({ content }) {
     } = content || {};
 
     return (
-        <section className="section overflow-hidden">
+        <section className="relative section-padding overflow-hidden">
+            {/* Mesh Gradient Backgrounds */}
+            <div className="absolute top-0 left-0 w-full h-full overflow-hidden pointer-events-none -z-10 bg-dark-bg">
+                <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-brand-primary/10 blur-[120px] rounded-full"></div>
+                <div className="absolute bottom-[-10%] right-[-10%] w-[30%] h-[30%] bg-brand-primary/5 blur-[100px] rounded-full"></div>
+            </div>
+
             <div className="container-custom">
-                <div className="grid lg:grid-cols-2 gap-16 items-center">
+                <div className="grid lg:grid-cols-2 gap-12 lg:gap-20 items-stretch">
                     {/* Training Side */}
                     <motion.div
                         initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="relative"
+                        transition={{ duration: 0.6 }}
+                        className="flex flex-col justify-center"
                     >
-                        <span className="text-primary-600 font-semibold mb-2 block">FOR STUDENTS</span>
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">{trainingTitle}</h2>
-                        <p className="text-lg text-gray-600 dark:text-gray-400 mb-8">
+                        <motion.div
+                            initial={{ opacity: 0, y: 10 }}
+                            whileInView={{ opacity: 1, y: 0 }}
+                            viewport={{ once: true }}
+                            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-xs font-bold tracking-widest uppercase mb-6 w-fit"
+                        >
+                            <GraduationCap size={14} />
+                            <span>Academic Excellence</span>
+                        </motion.div>
+
+                        <h2 className="text-4xl md:text-5xl font-bold mb-6 brand-gradient-text leading-tight">
+                            {trainingTitle}
+                        </h2>
+                        <p className="text-lg text-text-secondary mb-10 max-w-xl leading-relaxed">
                             {trainingDesc}
                         </p>
 
-                        <div className="space-y-4 mb-8">
+                        <div className="grid sm:grid-cols-2 gap-4 mb-10">
                             <Feature
                                 icon={Users}
-                                title="Mentorship"
-                                desc="Learn directly from industry experts"
+                                title="Expert Mentorship"
+                                desc="Learn directly from industry leaders"
                             />
                             <Feature
                                 icon={Award}
-                                title="Certification"
-                                desc="Get recognized for your skills"
+                                title="Global Certification"
+                                desc="Get industry-recognized credits"
                             />
                         </div>
 
                         <Link href="/services#training">
-                            <Button>View Training Programs</Button>
+                            <Button size="lg" className="w-fit">
+                                View Training Programs
+                                <ChevronRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
+                            </Button>
                         </Link>
                     </motion.div>
 
@@ -52,41 +73,44 @@ export default function TrainingInternship({ content }) {
                         initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
-                        className="p-8 md:p-12 rounded-3xl bg-gradient-to-br from-primary-900 to-secondary-900 text-white relative overflow-hidden"
+                        transition={{ duration: 0.6 }}
+                        className="relative group"
                     >
-                        {/* Decorative circles */}
-                        <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2" />
-                        <div className="absolute bottom-0 left-0 w-48 h-48 bg-secondary-500/20 rounded-full blur-2xl translate-y-1/2 -translate-x-1/2" />
+                        <div className="absolute -inset-0.5 bg-brand-primary rounded-[2.5rem] blur opacity-10 group-hover:opacity-25 transition duration-1000 group-hover:duration-200"></div>
 
-                        <div className="relative z-10">
-                            <span className="inline-block px-3 py-1 rounded-full bg-white/20 backdrop-blur-sm text-sm font-medium mb-6">
-                                CAREER START
-                            </span>
-                            <h2 className="text-3xl md:text-4xl font-bold mb-6">{internshipTitle}</h2>
-                            <p className="text-primary-100 mb-8 text-lg">
-                                {internshipDesc}
-                            </p>
+                        <div className="relative h-full p-8 md:p-12 glass-card rounded-[2.5rem] flex flex-col group-hover:border-brand-primary/30 transition-all duration-500">
+                            {/* Decorative glows */}
+                            <div className="absolute top-0 right-0 w-80 h-80 bg-brand-primary/20 rounded-full blur-[80px] -translate-y-1/2 translate-x-1/2 -z-10 opacity-50" />
+                            <div className="absolute bottom-0 left-0 w-64 h-64 bg-brand-primary/10 rounded-full blur-[60px] translate-y-1/2 -translate-x-1/2 -z-10 opacity-30" />
 
-                            <ul className="space-y-3 mb-8 text-primary-50">
-                                <li className="flex items-center gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                                    Real-world projects
-                                </li>
-                                <li className="flex items-center gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                                    Job assistance
-                                </li>
-                                <li className="flex items-center gap-3">
-                                    <div className="w-1.5 h-1.5 rounded-full bg-white" />
-                                    Flexible timings
-                                </li>
-                            </ul>
+                            <div className="relative z-10 flex flex-col h-full">
+                                <div className="flex justify-between items-start mb-8">
+                                    <span className="badge badge-beta text-[10px] py-1.5 font-bold tracking-widest border-brand-primary/20">
+                                        <Sparkles size={12} className="text-brand-primary animate-pulse" />
+                                        Career Accelerator
+                                    </span>
+                                </div>
 
-                            <Link href="/internship">
-                                <Button className="bg-white text-primary-900 hover:bg-gray-100 border-0">
-                                    Apply for Internship
-                                </Button>
-                            </Link>
+                                <h2 className="text-3xl md:text-4xl font-bold mb-6 group-hover:text-brand-primary transition-colors">
+                                    {internshipTitle}
+                                </h2>
+                                <p className="text-text-secondary mb-10 text-lg leading-relaxed max-w-md">
+                                    {internshipDesc}
+                                </p>
+
+                                <div className="space-y-4 mb-10 flex-grow">
+                                    <InternshipBenefit text="Real-world project immersion" />
+                                    <InternshipBenefit text="End-to-end placement assistance" />
+                                    <InternshipBenefit text="Flexible hybrid work schedules" />
+                                </div>
+
+                                <Link href="/internship">
+                                    <Button className="w-full h-14" variant="primary">
+                                        Apply for Internship
+                                        <Briefcase className="ml-2 w-5 h-5 group-hover:scale-110 transition-transform" />
+                                    </Button>
+                                </Link>
+                            </div>
                         </div>
                     </motion.div>
                 </div>
@@ -97,14 +121,23 @@ export default function TrainingInternship({ content }) {
 
 function Feature({ icon: Icon, title, desc }) {
     return (
-        <div className="flex items-start gap-4 p-4 rounded-xl bg-gray-50 dark:bg-gray-800/50 border border-gray-100 dark:border-gray-700">
-            <div className="w-10 h-10 rounded-lg bg-primary-100 dark:bg-primary-900/30 text-primary-600 flex items-center justify-center flex-shrink-0">
-                <Icon size={20} />
+        <div className="glass-card-hover p-5 border-white/5 hover:border-brand-primary/30">
+            <div className="w-12 h-12 rounded-xl bg-brand-primary/10 text-brand-primary flex items-center justify-center mb-4 group-hover:scale-110 group-hover:bg-brand-primary/20 transition-all">
+                <Icon size={24} />
             </div>
-            <div>
-                <h4 className="font-bold mb-1">{title}</h4>
-                <p className="text-sm text-gray-500">{desc}</p>
+            <h4 className="font-bold mb-2 text-text-primary group-hover:text-brand-primary transition-colors">{title}</h4>
+            <p className="text-sm text-text-muted leading-relaxed">{desc}</p>
+        </div>
+    );
+}
+
+function InternshipBenefit({ text }) {
+    return (
+        <div className="flex items-center gap-3 group/item">
+            <div className="flex-shrink-0 w-5 h-5 rounded-full bg-brand-primary/10 flex items-center justify-center border border-white/5 group-hover/item:bg-brand-primary/20 transition-colors">
+                <CheckCircle2 size={12} className="text-brand-primary" />
             </div>
+            <span className="text-sm md:text-base font-medium text-text-secondary group-hover/item:text-text-primary transition-colors">{text}</span>
         </div>
     );
 }

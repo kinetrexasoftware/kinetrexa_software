@@ -1,8 +1,6 @@
 'use client';
-import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { MessageSquare, PenTool, Code2, Rocket, Search, Lightbulb, Settings, Flag } from 'lucide-react';
-import { contentAPI } from '@/lib/api';
+import { MessageSquare, PenTool, Code2, Rocket, Search, Lightbulb, Settings, Flag, Sparkles } from 'lucide-react';
 
 const iconMap = {
     MessageSquare, PenTool, Code2, Rocket, Search, Lightbulb, Settings, Flag
@@ -17,21 +15,43 @@ export default function HowWeWork({ content }) {
 
     const stepsToDisplay = steps.length > 0 ? steps : [];
 
-    if (stepsToDisplay.length === 0) return null; // Or show defaults/loading logic if preferred, but seed has data.
+    if (stepsToDisplay.length === 0) return null;
 
     return (
-        <section className="section bg-gray-50 dark:bg-gray-900/50">
-            <div className="container-custom">
-                <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">{title}</h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+        <section className="section-padding relative overflow-hidden">
+            <div className="container-custom relative z-10">
+                <div className="text-center mb-20">
+                    <motion.div
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
+                        viewport={{ once: true }}
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-6"
+                    >
+                        <Sparkles size={12} className="animate-pulse" />
+                        <span>Our Process</span>
+                    </motion.div>
+
+                    <motion.h2
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-4xl md:text-5xl font-bold mb-6 brand-gradient-text"
+                    >
+                        {title}
+                    </motion.h2>
+                    <motion.p
+                        initial={{ opacity: 0, y: 20 }}
+                        whileInView={{ opacity: 1, y: 0 }}
+                        viewport={{ once: true }}
+                        className="text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed"
+                    >
                         {subtitle}
-                    </p>
+                    </motion.p>
                 </div>
 
                 <div className="relative">
                     {/* Connecting Line (Desktop) */}
-                    <div className="hidden lg:block absolute top-1/2 left-0 w-full h-0.5 bg-gray-200 dark:bg-gray-700 -translate-y-1/2 z-0" />
+                    <div className="hidden lg:block absolute top-[45%] left-0 w-full h-0.5 bg-gradient-to-r from-transparent via-brand-primary/20 to-transparent z-0" />
 
                     <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8 relative z-10">
                         {stepsToDisplay.map((step, index) => {
@@ -40,22 +60,23 @@ export default function HowWeWork({ content }) {
                             return (
                                 <motion.div
                                     key={step.id || index}
-                                    initial={{ opacity: 0, y: 20 }}
+                                    initial={{ opacity: 0, y: 30 }}
                                     whileInView={{ opacity: 1, y: 0 }}
                                     viewport={{ once: true }}
-                                    transition={{ delay: index * 0.2 }}
-                                    className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 text-center relative group hover:shadow-lg transition-shadow"
+                                    transition={{ delay: index * 0.1 }}
+                                    className="glass-card-hover p-8 border-white/5 text-center flex flex-col items-center"
                                 >
-                                    <div className="w-16 h-16 mx-auto bg-primary-600 text-white rounded-full flex items-center justify-center mb-6 text-xl font-bold group-hover:scale-110 transition-transform">
-                                        <IconComponent size={28} />
+                                    <div className="w-20 h-20 mx-auto bg-brand-primary/10 text-brand-primary rounded-full flex items-center justify-center mb-8 relative z-10 group-hover:scale-110 group-hover:bg-brand-primary/20 transition-all duration-300">
+                                        <IconComponent size={32} />
+                                        <div className="absolute -inset-2 bg-brand-primary/10 blur-xl rounded-full -z-10 group-hover:bg-brand-primary/30 opacity-0 group-hover:opacity-100 transition-all" />
                                     </div>
-                                    <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-                                    <p className="text-gray-600 dark:text-gray-400 text-sm">
+                                    <h3 className="text-xl font-bold mb-4 text-text-primary group-hover:text-brand-primary transition-colors">{step.title}</h3>
+                                    <p className="text-text-secondary text-sm leading-relaxed">
                                         {step.desc}
                                     </p>
 
-                                    <div className="absolute top-4 right-4 text-4xl font-bold text-gray-100 dark:text-gray-700 -z-10">
-                                        0{index + 1}
+                                    <div className="absolute top-4 right-6 text-5xl font-black text-white/[0.03] group-hover:text-brand-primary/[0.05] transition-colors -z-10 select-none">
+                                        {index + 1}
                                     </div>
                                 </motion.div>
                             );
@@ -63,6 +84,8 @@ export default function HowWeWork({ content }) {
                     </div>
                 </div>
             </div>
+
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-brand-primary/5 blur-[120px] rounded-full pointer-events-none -z-10" />
         </section>
     );
 }

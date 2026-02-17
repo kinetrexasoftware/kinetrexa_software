@@ -5,26 +5,29 @@ import { motion } from 'framer-motion';
 import {
     ArrowRight, Sparkles, Home, BarChart3, Users,
     Globe, Smartphone, Cloud, Database, Layers,
-    Code, Cpu, Activity, Zap, Shield
+    Code, Cpu, Activity, Zap, Shield, ExternalLink
 } from 'lucide-react';
 import { productAPI } from '@/lib/api';
+import Button from '@/components/ui/Button';
 
 const iconMap = {
     Home, BarChart3, Users, Globe, Smartphone,
     Cloud, Database, Layers, Code, Cpu, Activity, Zap, Shield
 };
 
-const getStatusStyles = (status) => {
-    switch (status) {
-        case 'Live':
-            return 'bg-green-500/10 text-green-400 border-green-500/20 shadow-[0_0_12px_rgba(34,197,94,0.3)]';
-        case 'Beta':
-            return 'bg-purple-500/10 text-purple-400 border-purple-500/20 shadow-[0_0_12px_rgba(168,85,247,0.3)]';
-        case 'Coming Soon':
-            return 'bg-amber-500/10 text-amber-400 border-amber-500/20 shadow-[0_0_12px_rgba(245,158,11,0.3)]';
-        default:
-            return 'bg-gray-500/10 text-gray-400 border-gray-500/20';
-    }
+const StatusBadge = ({ status }) => {
+    const styles = {
+        'Live': 'badge-live',
+        'Beta': 'badge-beta',
+        'Coming Soon': 'badge-coming'
+    };
+
+    return (
+        <span className={`badge ${styles[status] || 'bg-white/5 text-gray-400'}`}>
+            <div className="w-1.5 h-1.5 rounded-full bg-current animate-pulse" />
+            {status}
+        </span>
+    );
 };
 
 export default function OurProducts({ content }) {
@@ -53,11 +56,11 @@ export default function OurProducts({ content }) {
 
     if (loading) {
         return (
-            <section className="py-24 bg-[#0B1220]">
+            <section className="section-padding">
                 <div className="container-custom">
-                    <div className="grid md:grid-cols-3 gap-8">
+                    <div className="grid md:grid-cols-3 gap-8 text-center">
                         {[1, 2, 3].map(i => (
-                            <div key={i} className="h-[400px] rounded-2xl bg-white/5 animate-pulse border border-white/10"></div>
+                            <div key={i} className="h-[450px] rounded-2xl bg-white/5 animate-pulse border border-white/10"></div>
                         ))}
                     </div>
                 </div>
@@ -69,28 +72,24 @@ export default function OurProducts({ content }) {
     const hasMore = products.length > 3;
 
     return (
-        <section className="relative py-24 bg-gradient-to-b from-[#0B1220] to-[#0E1A2B] overflow-hidden">
-            {/* Ambient Background Glows */}
-            <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-primary-600/5 blur-[120px] rounded-full pointer-events-none"></div>
-            <div className="absolute bottom-1/4 right-1/4 w-[600px] h-[600px] bg-indigo-600/5 blur-[120px] rounded-full pointer-events-none"></div>
-
+        <section className="relative section-padding overflow-hidden">
             <div className="container-custom relative z-10">
                 <div className="text-center mb-20">
                     <motion.div
-                        initial={{ opacity: 0, y: 10 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-xs font-bold uppercase tracking-widest mb-6"
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-6"
                     >
-                        <Sparkles size={14} />
-                        <span>Featured Ecosystem</span>
+                        <Sparkles size={12} className="animate-pulse" />
+                        <span>Our Marketplace</span>
                     </motion.div>
+
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-5xl font-bold mb-6 text-white tracking-tight"
+                        className="text-4xl md:text-5xl font-bold mb-6 brand-gradient-text"
                     >
                         {title}
                     </motion.h2>
@@ -98,8 +97,7 @@ export default function OurProducts({ content }) {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed"
+                        className="text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed"
                     >
                         {subtitle}
                     </motion.p>
@@ -116,46 +114,47 @@ export default function OurProducts({ content }) {
                                 whileInView={{ opacity: 1, y: 0 }}
                                 viewport={{ once: true }}
                                 transition={{ delay: index * 0.1 }}
+                                className="h-full"
                             >
-                                <Link href={`/products/${product.slug}`} className="block group h-full">
-                                    <div className="relative h-full p-8 rounded-2xl bg-white/[0.04] backdrop-blur-md border border-white/[0.08] transition-all duration-500 group-hover:-translate-y-2 group-hover:bg-white/[0.07] group-hover:border-primary-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.3)] flex flex-col">
+                                <Link href={`/products/${product.slug}`} className="block h-full group">
+                                    <div className="h-full glass-card-hover p-8 flex flex-col items-center text-center">
 
-                                        {/* Logo Container */}
-                                        <div className="flex justify-center mb-8 relative">
-                                            <div className={`w-20 h-20 rounded-2xl bg-gradient-to-br ${product.gradientTheme || 'from-primary-500 to-indigo-600'} flex items-center justify-center p-5 shadow-2xl relative z-10 group-hover:scale-110 transition-transform duration-500`}>
-                                                <IconComponent className="w-full h-full text-white drop-shadow-[0_4px_8px_rgba(0,0,0,0.3)]" />
+                                        {/* Logo Section */}
+                                        <div className="mb-10 relative">
+                                            <div className="w-20 h-20 rounded-2xl bg-white/5 border border-white/10 flex items-center justify-center p-5 shadow-2xl relative z-10 group-hover:scale-110 group-hover:border-brand-primary/30 transition-all duration-500">
+                                                <IconComponent className="w-full h-full text-brand-primary drop-shadow-[0_0_15px_rgba(14,165,233,0.5)]" />
                                             </div>
-                                            {/* Logo Reflection/Glow */}
-                                            <div className={`absolute inset-0 w-20 h-20 mx-auto bg-gradient-to-br ${product.gradientTheme} blur-2xl rounded-full opacity-40 group-hover:opacity-70 transition-opacity duration-500 shadow-2xl`}></div>
+                                            {/* Glow Background */}
+                                            <div className="absolute inset-0 bg-brand-primary/10 blur-2xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                                         </div>
 
-                                        <div className="text-center mb-6">
-                                            <div className={`inline-flex px-3 py-1 rounded-full border text-[10px] font-bold uppercase tracking-widest mb-4 transition-all duration-500 ${getStatusStyles(product.status)}`}>
-                                                {product.status}
+                                        {/* Content */}
+                                        <div className="mb-8 flex-grow">
+                                            <div className="mb-4">
+                                                <StatusBadge status={product.status} />
                                             </div>
-                                            <h3 className="text-2xl font-bold mb-2 text-white group-hover:text-primary-400 transition-colors">
+                                            <h3 className="text-2xl font-bold mb-2 text-text-primary group-hover:text-brand-primary transition-colors">
                                                 {product.name}
                                             </h3>
-                                            <p className="text-sm font-semibold text-primary-400/80 uppercase tracking-wider">
+                                            <p className="text-xs font-bold text-brand-primary/80 uppercase tracking-widest mb-4">
                                                 {product.tagline}
+                                            </p>
+                                            <p className="text-sm text-text-secondary leading-relaxed line-clamp-3">
+                                                {product.shortDescription || product.description}
                                             </p>
                                         </div>
 
-                                        <p className="text-gray-400 mb-8 leading-relaxed flex-grow text-center text-sm italic">
-                                            "{product.shortDescription || product.description}"
-                                        </p>
-
-                                        <div className="flex justify-center">
-                                            <div className="inline-flex items-center gap-2 px-6 py-3 rounded-full bg-white/5 border border-white/10 text-white font-bold text-sm transition-all duration-300 group-hover:bg-primary-500 group-hover:border-primary-500 group-hover:shadow-[0_0_20px_rgba(14,165,233,0.5)]">
+                                        {/* CTA Button */}
+                                        <div className="w-full mt-auto mb-2">
+                                            <Button
+                                                className="w-full h-12"
+                                                variant={product.status === 'Live' ? 'primary' : 'outline'}
+                                            >
                                                 <span>{product.status === 'Live' ? 'Visit Product' : 'View Details'}</span>
-                                                <ArrowRight size={16} className="group-hover:translate-x-1 transition-transform" />
-                                            </div>
+                                                {product.status === 'Live' ? <ExternalLink className="ml-2 w-4 h-4" /> : <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />}
+                                            </Button>
                                         </div>
 
-                                        {/* Corner Accent */}
-                                        <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <Sparkles size={16} className="text-primary-500 animate-pulse" />
-                                        </div>
                                     </div>
                                 </Link>
                             </motion.div>
@@ -167,11 +166,14 @@ export default function OurProducts({ content }) {
                     <motion.div
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
                         className="mt-20 text-center"
                     >
-                        <Link href="/products" className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 hover:border-primary-500/50 transition-all duration-300 group shadow-lg">
-                            <span>Explore Full Ecosystem</span>
-                            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                        <Link href="/products">
+                            <Button variant="outline" size="lg" className="rounded-full shadow-lg h-14 px-10">
+                                <span>Explore Full Ecosystem</span>
+                                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </Button>
                         </Link>
                     </motion.div>
                 )}

@@ -8,6 +8,7 @@ import {
     ArrowRight, Sparkles
 } from 'lucide-react';
 import { serviceAPI } from '@/lib/api';
+import Button from '@/components/ui/Button';
 
 const iconMap = {
     Code, Smartphone, Rocket, GraduationCap, Users, Settings,
@@ -40,7 +41,7 @@ export default function Services({ content }) {
 
     if (loading) {
         return (
-            <section className="py-24 bg-[#0B1220] text-white">
+            <section className="section-padding">
                 <div className="container-custom text-center">
                     <div className="animate-pulse flex flex-col items-center">
                         <div className="h-10 w-64 bg-white/10 rounded-lg mb-4"></div>
@@ -60,28 +61,27 @@ export default function Services({ content }) {
     const hasMore = services.length > 6;
 
     return (
-        <section className="relative py-24 bg-gradient-to-b from-[#0B1220] to-[#0E1A2B] overflow-hidden">
+        <section className="relative section-padding overflow-hidden">
             {/* Background Decorative Elements */}
-            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[800px] h-[800px] bg-primary-600/10 blur-[120px] rounded-full pointer-events-none"></div>
-            <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-secondary-600/10 blur-[100px] rounded-full pointer-events-none"></div>
+            <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/2 w-[800px] h-[800px] bg-brand-primary/10 blur-[120px] rounded-full pointer-events-none -z-10"></div>
+            <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-primary/5 blur-[100px] rounded-full pointer-events-none -z-10"></div>
 
             <div className="container-custom relative z-10">
                 <div className="text-center mb-20">
                     <motion.div
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
+                        initial={{ opacity: 0, scale: 0.9 }}
+                        whileInView={{ opacity: 1, scale: 1 }}
                         viewport={{ once: true }}
-                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-primary-500/10 border border-primary-500/20 text-primary-400 text-sm font-semibold mb-4"
+                        className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-brand-primary/10 border border-brand-primary/20 text-brand-primary text-[10px] font-bold uppercase tracking-widest mb-6"
                     >
-                        <Sparkles size={14} />
+                        <Sparkles size={12} className="animate-pulse" />
                         <span>Professional Services</span>
                     </motion.div>
                     <motion.h2
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.1 }}
-                        className="text-4xl md:text-5xl font-bold mb-6 text-white tracking-tight"
+                        className="text-4xl md:text-5xl font-bold mb-6 brand-gradient-text"
                     >
                         {title}
                     </motion.h2>
@@ -89,8 +89,7 @@ export default function Services({ content }) {
                         initial={{ opacity: 0, y: 20 }}
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true }}
-                        transition={{ delay: 0.2 }}
-                        className="text-lg text-gray-400 max-w-2xl mx-auto leading-relaxed"
+                        className="text-lg text-text-secondary max-w-2xl mx-auto leading-relaxed"
                     >
                         {subtitle}
                     </motion.p>
@@ -109,32 +108,32 @@ export default function Services({ content }) {
                                 transition={{ delay: index * 0.1 }}
                             >
                                 <Link href={`/services/${service.slug}`} className="block group h-full">
-                                    <div className="relative h-full p-8 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 transition-all duration-500 group-hover:-translate-y-2 group-hover:bg-white/[0.08] group-hover:border-primary-500/50 group-hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.3)] flex flex-col">
+                                    <div className="relative h-full p-8 glass-card-hover border-white/5 flex flex-col">
 
                                         {/* Icon Container */}
                                         <div className="mb-8 relative">
-                                            <div className="w-14 h-14 rounded-2xl bg-gradient-to-br from-primary-500/20 to-primary-600/10 flex items-center justify-center border border-primary-500/20 relative z-10 group-hover:scale-110 transition-transform duration-500">
-                                                <IconComponent className="w-7 h-7 text-primary-400 group-hover:text-primary-300 group-hover:drop-shadow-[0_0_8px_rgba(14,165,233,0.6)] transition-all" />
+                                            <div className="w-14 h-14 rounded-2xl bg-brand-primary/10 flex items-center justify-center border border-brand-primary/20 relative z-10 group-hover:scale-110 transition-transform duration-500">
+                                                <IconComponent className="w-7 h-7 text-brand-primary group-hover:drop-shadow-[0_0_8px_rgba(14,165,233,0.6)] transition-all" />
                                             </div>
                                             {/* Icon Glow */}
-                                            <div className="absolute inset-0 w-14 h-14 bg-primary-500/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                                            <div className="absolute inset-0 w-14 h-14 bg-brand-primary/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
                                         </div>
 
-                                        <h3 className="text-2xl font-bold mb-4 text-white group-hover:text-primary-400 transition-colors">
+                                        <h3 className="text-2xl font-bold mb-4 text-text-primary group-hover:text-brand-primary transition-colors">
                                             {service.title}
                                         </h3>
-                                        <p className="text-gray-400 mb-8 leading-relaxed flex-grow">
+                                        <p className="text-text-secondary mb-8 leading-relaxed flex-grow line-clamp-3">
                                             {service.shortDescription || service.description}
                                         </p>
 
-                                        <div className="flex items-center gap-2 text-primary-400 font-semibold text-sm group-hover:gap-3 transition-all">
+                                        <div className="flex items-center gap-2 text-brand-primary font-bold text-sm group-hover:gap-3 transition-all">
                                             <span>Learn More</span>
                                             <ArrowRight size={16} />
                                         </div>
 
                                         {/* Corner Accent */}
                                         <div className="absolute top-0 right-0 p-3 opacity-0 group-hover:opacity-100 transition-opacity">
-                                            <div className="w-1 h-1 bg-primary-500 rounded-full shadow-[0_0_8px_#0ea5e9]"></div>
+                                            <div className="w-1 h-1 bg-brand-primary rounded-full shadow-[0_0_8px_#0ea5e9]"></div>
                                         </div>
                                     </div>
                                 </Link>
@@ -147,11 +146,14 @@ export default function Services({ content }) {
                     <motion.div
                         initial={{ opacity: 0 }}
                         whileInView={{ opacity: 1 }}
+                        viewport={{ once: true }}
                         className="mt-20 text-center"
                     >
-                        <Link href="/services" className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white/5 border border-white/10 text-white font-bold hover:bg-white/10 hover:border-primary-500/50 transition-all duration-300 group shadow-lg">
-                            <span>View All Services</span>
-                            <ArrowRight size={18} className="group-hover:translate-x-1 transition-transform" />
+                        <Link href="/services">
+                            <Button variant="outline" size="lg" className="rounded-full shadow-lg h-14 px-10">
+                                <span>View All Services</span>
+                                <ArrowRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform" />
+                            </Button>
                         </Link>
                     </motion.div>
                 )}

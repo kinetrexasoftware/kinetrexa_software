@@ -14,28 +14,32 @@ export default function TrainingPhilosophy({ content }) {
     } = content || {};
 
     return (
-        <section className="section bg-gradient-to-br from-primary-900 via-dark-bg to-secondary-900 text-white">
-            <div className="container-custom">
-                <div className="grid lg:grid-cols-2 gap-12 items-center">
+        <section className="section-padding relative overflow-hidden">
+            {/* Background Glows */}
+            <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-brand-primary/5 blur-[120px] rounded-full -z-10" />
+            <div className="absolute bottom-0 left-0 w-[500px] h-[500px] bg-brand-primary/[0.02] blur-[100px] rounded-full -z-10" />
+
+            <div className="container-custom relative z-10">
+                <div className="grid lg:grid-cols-2 gap-20 items-center">
                     <motion.div
-                        initial={{ opacity: 0, x: -20 }}
+                        initial={{ opacity: 0, x: -30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                     >
-                        <h2 className="text-3xl md:text-4xl font-bold mb-6">{title}</h2>
-                        <div className="space-y-6 text-lg text-gray-300">
+                        <h2 className="text-4xl md:text-5xl font-bold mb-8 brand-gradient-text leading-tight">{title}</h2>
+                        <div className="space-y-6 text-lg text-text-secondary leading-relaxed">
                             {paragraphs.map((p, i) => (
                                 <p key={i}>{p}</p>
                             ))}
                         </div>
-                        <div className="flex flex-wrap gap-4 mt-8">
+                        <div className="flex flex-wrap gap-6 mt-12">
                             <Link href="/internship">
-                                <Button className="bg-white text-primary-900 hover:bg-gray-100">
+                                <Button size="lg" variant="primary" className="h-14 px-8">
                                     Browse Internships
                                 </Button>
                             </Link>
                             <Link href="/services#training">
-                                <Button variant="outline" className="text-white border-white hover:bg-white/10">
+                                <Button size="lg" variant="outline" className="border-white/10 h-14 px-8">
                                     View Syllabus
                                 </Button>
                             </Link>
@@ -43,20 +47,20 @@ export default function TrainingPhilosophy({ content }) {
                     </motion.div>
 
                     <motion.div
-                        initial={{ opacity: 0, x: 20 }}
+                        initial={{ opacity: 0, x: 30 }}
                         whileInView={{ opacity: 1, x: 0 }}
                         viewport={{ once: true }}
                         className="grid sm:grid-cols-2 gap-6"
                     >
-                        <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                            <GraduationCap className="w-10 h-10 text-primary-400 mb-4" />
-                            <h3 className="text-xl font-bold mb-2">Skill-First Approach</h3>
-                            <p className="text-sm text-gray-400">Curriculum updated monthly to match industry demands.</p>
+                        <div className="glass-card-hover border-white/5 p-8">
+                            <GraduationCap className="w-12 h-12 text-brand-primary mb-6" />
+                            <h3 className="text-xl font-bold mb-3 text-text-primary">Skill-First Approach</h3>
+                            <p className="text-sm text-text-secondary leading-relaxed">Curriculum updated monthly to match real-world industry demands and trends.</p>
                         </div>
-                        <div className="p-6 rounded-xl bg-white/5 border border-white/10 backdrop-blur-sm">
-                            <Briefcase className="w-10 h-10 text-secondary-400 mb-4" />
-                            <h3 className="text-xl font-bold mb-2">Real Experience</h3>
-                            <p className="text-sm text-gray-400">Work on projects that actually go live to users.</p>
+                        <div className="glass-card-hover border-white/5 p-8 mt-6 sm:mt-12">
+                            <Briefcase className="w-12 h-12 text-brand-primary mb-6" />
+                            <h3 className="text-xl font-bold mb-3 text-text-primary">Real Experience</h3>
+                            <p className="text-sm text-text-secondary leading-relaxed">You won't just study—you'll ship production-grade code to actual customers.</p>
                         </div>
                     </motion.div>
                 </div>

@@ -4,6 +4,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Menu, X, ChevronRight } from 'lucide-react';
+import Button from '@/components/ui/Button';
 
 const navLinks = [
     { name: 'Home', path: '/' },
@@ -31,15 +32,15 @@ export default function Navbar() {
 
     return (
         <nav
-            className={`sticky top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'glass-nav py-4 shadow-lg' : 'bg-transparent py-5'
+            className={`sticky top-0 w-full z-50 transition-all duration-300 ${scrolled ? 'bg-dark-bg/85 backdrop-blur-md border-b border-white/5 py-4 shadow-lg' : 'bg-transparent py-6'
                 }`}
         >
-            <div className="container mx-auto px-4 md:px-6">
+            <div className="container-custom">
                 <div className="flex justify-between items-center">
                     {/* Logo */}
                     <Link href="/" className="text-2xl font-bold tracking-tighter hover:opacity-80 transition-opacity">
-                        <span className="text-white">Kine</span>
-                        <span className="text-primary-400">Trexa</span>
+                        <span className="text-text-primary">Kine</span>
+                        <span className="text-brand-primary">Trexa</span>
                     </Link>
 
                     {/* Desktop Navigation */}
@@ -48,24 +49,23 @@ export default function Navbar() {
                             <Link
                                 key={link.path}
                                 href={link.path}
-                                className={`text-sm font-medium transition-colors hover:text-primary-400 ${pathname === link.path ? 'text-primary-400' : 'text-gray-300'
+                                className={`text-sm font-semibold transition-all hover:text-brand-primary ${pathname === link.path ? 'text-brand-primary' : 'text-text-secondary'
                                     }`}
                             >
                                 {link.name}
                             </Link>
                         ))}
-                        <Link
-                            href="/contact"
-                            className="px-5 py-2.5 text-sm font-semibold text-white bg-primary-600 rounded-full hover:bg-primary-500 transition-all hover:scale-105 active:scale-95 shadow-lg shadow-primary-500/25"
-                        >
-                            Get Started
+                        <Link href="/contact">
+                            <Button size="sm" className="shadow-brand-glow/20">
+                                Get Started
+                            </Button>
                         </Link>
                     </div>
 
                     {/* Mobile Menu Button */}
                     <button
                         onClick={() => setIsOpen(!isOpen)}
-                        className="md:hidden text-gray-300 hover:text-white transition-colors"
+                        className="md:hidden text-text-secondary hover:text-text-primary transition-colors"
                     >
                         {isOpen ? <X size={24} /> : <Menu size={24} />}
                     </button>
@@ -79,28 +79,26 @@ export default function Navbar() {
                         initial={{ opacity: 0, height: 0 }}
                         animate={{ opacity: 1, height: 'auto' }}
                         exit={{ opacity: 0, height: 0 }}
-                        className="md:hidden bg-dark-bg/95 backdrop-blur-xl border-t border-white/10 overflow-hidden"
+                        className="md:hidden bg-dark-bg/95 backdrop-blur-xl border-t border-white/5 overflow-hidden"
                     >
-                        <div className="container mx-auto px-4 py-6 flex flex-col space-y-4">
+                        <div className="container-custom py-6 flex flex-col space-y-4">
                             {navLinks.map((link) => (
                                 <Link
                                     key={link.path}
                                     href={link.path}
                                     onClick={() => setIsOpen(false)}
-                                    className={`flex items-center justify-between text-lg font-medium py-2 border-b border-white/5 ${pathname === link.path ? 'text-primary-400' : 'text-gray-300'
+                                    className={`flex items-center justify-between text-lg font-medium py-3 border-b border-white/5 ${pathname === link.path ? 'text-brand-primary' : 'text-text-secondary'
                                         }`}
                                 >
                                     {link.name}
-                                    <ChevronRight size={16} className={`opacity-50 ${pathname === link.path ? 'text-primary-400' : ''}`} />
+                                    <ChevronRight size={16} className={`opacity-50 ${pathname === link.path ? 'text-brand-primary' : ''}`} />
                                 </Link>
                             ))}
                             <div className="pt-4">
-                                <Link
-                                    href="/contact"
-                                    onClick={() => setIsOpen(false)}
-                                    className="block w-full text-center py-3 text-white bg-primary-600 rounded-lg font-semibold hover:bg-primary-500 transition-colors"
-                                >
-                                    Get Started
+                                <Link href="/contact" onClick={() => setIsOpen(false)}>
+                                    <Button className="w-full h-12">
+                                        Get Started
+                                    </Button>
                                 </Link>
                             </div>
                         </div>
