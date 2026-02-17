@@ -5,7 +5,9 @@ const {
     getService,
     createService,
     updateService,
-    deleteService
+    deleteService,
+    reorderServices,
+    getServiceBySlug
 } = require('../controllers/services');
 
 const router = express.Router();
@@ -13,6 +15,8 @@ const { protect } = require('../middleware/auth.middleware');
 const authorize = require('../middleware/role.middleware');
 
 router.route('/public').get(getPublicServices);
+router.route('/slug/:slug').get(getServiceBySlug);
+router.route('/reorder').put(protect, authorize('admin', 'super_admin'), reorderServices);
 
 router.route('/')
     .get(getServices)

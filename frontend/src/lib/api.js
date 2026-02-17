@@ -55,6 +55,7 @@ export const serviceAPI = {
     getAll: () => api.get('/services'),
     getPublic: () => api.get('/services/public'),
     getOne: (id) => api.get(`/services/${id}`),
+    getBySlug: (slug) => api.get(`/services/slug/${slug}`),
 };
 
 export const trainingAPI = {

@@ -149,6 +149,7 @@ export const fetchAdminServices = () => adminApi.get('/services');
 export const createService = (data) => adminApi.post('/services', data);
 export const updateService = (id, data) => adminApi.put(`/services/${id}`, data);
 export const deleteService = (id) => adminApi.delete(`/services/${id}`);
+export const reorderServices = (services) => adminApi.put('/services/reorder', { services });
 
 // --- Training ---
 export const fetchAdminTraining = () => adminApi.get('/training');

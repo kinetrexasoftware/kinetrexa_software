@@ -7,30 +7,34 @@ const ServiceSchema = new mongoose.Schema({
         required: [true, 'Please add a service title'],
         unique: true,
         trim: true,
-        maxlength: [50, 'Title can not be more than 50 characters']
+        maxlength: [100, 'Title can not be more than 100 characters']
     },
     slug: String,
-    description: {
+    shortDescription: {
         type: String,
-        required: [true, 'Please add a description'],
-        maxlength: [500, 'Description can not be more than 500 characters']
+        required: [true, 'Please add a short description'],
+        maxlength: [200, 'Short description can not be more than 200 characters']
+    },
+    detailedDescription: {
+        type: String,
+        required: [true, 'Please add a detailed description']
     },
     icon: {
         type: String,
-        default: 'Settings' // Default Lucide icon name
+        default: 'Settings'
     },
-    category: {
+    coverImage: {
         type: String,
-        required: true,
-        enum: ['Software', 'Design', 'Marketing', 'Consulting', 'Infrastructure'],
-        default: 'Software'
+        default: 'default-service.jpg'
     },
-    price: {
+    gradientTheme: {
         type: String,
-        default: 'Custom Quote'
+        default: 'from-blue-600 to-cyan-500'
     },
     features: [String],
-    active: {
+    technologies: [String],
+    processSteps: [String],
+    isActive: {
         type: Boolean,
         default: true
     },
