@@ -1,11 +1,4 @@
-'use client';
 
-import { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { applicationAPI } from '@/lib/api';
-import { Loader2, CheckCircle2, FileDown, AlertCircle, Search, Mail, Fingerprint } from 'lucide-react';
-import Button from '@/components/ui/Button';
-import toast, { Toaster } from 'react-hot-toast';
 
 'use client';
 

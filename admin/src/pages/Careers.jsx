@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Edit2, Trash2, X, Save, Loader2, Briefcase, MapPin, Upload } from 'lucide-react';
-import { api } from '../services/api';
+import { api } from '../lib/api';
 import toast from 'react-hot-toast';
 
 const uploadImage = async (file) => {

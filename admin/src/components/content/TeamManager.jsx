@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Edit2, Trash2, Upload, X, Save, Loader2, Github, Linkedin, Twitter } from 'lucide-react';
-import { api } from '../../services/api';
+import { api } from '../../lib/api';
 import toast from 'react-hot-toast';
 
 // Simple API service wrapper if not exists
