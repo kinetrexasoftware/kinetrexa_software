@@ -22,26 +22,26 @@ export default function QuickContact() {
         {
             icon: Mail,
             title: "Email Us",
-            value: content.email || "contact@kinetrexa.com",
+            value: content?.content?.email || "hello@kinetrexa.com",
             sub: "We usually reply within 24 hours.",
-            link: `mailto:${content.email || "contact@kinetrexa.com"}`,
+            link: `mailto:${content?.content?.email || "hello@kinetrexa.com"}`,
             color: "text-blue-600",
             bg: "bg-blue-100 dark:bg-blue-900/20"
         },
         {
             icon: Phone,
             title: "Call Us",
-            value: content.phone || "+91 98765 43210",
-            sub: "Mon-Fri from 9am to 6pm.",
-            link: `tel:${content.phone || "+919876543210"}`,
+            value: content?.content?.phone || "+91 98765 43210",
+            sub: "Mon-Sat from 9am to 6pm.",
+            link: `tel:${content?.content?.phone || "+919876543210"}`,
             color: "text-green-600",
             bg: "bg-green-100 dark:bg-green-900/20"
         },
         {
             icon: MapPin,
             title: "Visit Us",
-            value: content.address1 || "KineTrexa HQ, Tech Park",
-            sub: content.address2 || "Bangalore, India - 560100",
+            value: content?.content?.address1 || "House No. 121B, Lacchiipu, Gorakhpur",
+            sub: content?.content?.address2 || "Uttar Pradesh, India - 273001",
             link: null,
             color: "text-purple-600",
             bg: "bg-purple-100 dark:bg-purple-900/20"

@@ -12,7 +12,7 @@ import CTA from '@/components/home/CTA';
 
 async function getHomeContent() {
     try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002/api';
         const res = await fetch(`${API_URL}/content/home`, {
             cache: 'no-store'
         });

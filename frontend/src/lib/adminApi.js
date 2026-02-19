@@ -263,7 +263,8 @@ export const replyToInquiry = (id, replyMessage) => adminApi.post(`/contacts/${i
 // --- Content ---
 export const fetchContent = async (section) => {
     try {
-        const response = await adminApi.get(`/content/section/${section}`);
+        // Backend route is /api/content/:section, not /api/content/section/:section
+        const response = await adminApi.get(`/content/${section}`);
         // Response structure is { success: true, content: { ... } }
         // Our interceptor returns response.data, so we get the whole object
         // Return just the content part

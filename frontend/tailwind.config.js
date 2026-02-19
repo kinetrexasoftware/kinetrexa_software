@@ -52,6 +52,12 @@ module.exports = {
                     '100%': { transform: 'translateX(0%)' },
                 },
             },
+            boxShadow: {
+                'premium-hover': '0 20px 40px -15px rgba(14,165,233,0.3)',
+                'badge-live': '0 0 15px rgba(34,197,94,0.2)',
+                'badge-beta': '0 0 15px rgba(168,85,247,0.2)',
+                'badge-coming': '0 0 15px rgba(245,158,11,0.2)',
+            },
             backdropBlur: {
                 xs: '2px',
             }

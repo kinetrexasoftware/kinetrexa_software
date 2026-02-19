@@ -27,7 +27,7 @@ const benefits = [
 
 export default function InternshipBenefits() {
     return (
-        <section className="section bg-white dark:bg-dark-bg">
+        <section className="section-padding bg-white dark:bg-dark-bg">
             <div className="container-custom">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">Benefits & Outcomes</h2>

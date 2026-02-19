@@ -5,8 +5,8 @@ import { Quote, Sparkles } from 'lucide-react';
 export default function FounderVision({ content }) {
     const {
         quote = "At KineTrexa, we don't just write code; we engineer possibilities. Our vision is to bridge the gap between academic learning and industry demands while delivering world-class digital solutions to our clients.",
-        author = "Shahe Alam",
-        designation = "Founder & CEO, KineTrexa"
+        author = "Shahe Aalam Ansari",
+        designation = "Director & Founder, KineTrexa"
     } = content || {};
 
     return (

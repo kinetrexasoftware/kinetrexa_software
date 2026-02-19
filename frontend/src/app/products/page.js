@@ -1,4 +1,4 @@
-'use client';
+
 
 import ProductsHero from '@/components/products/ProductsHero';
 import ProductsGrid from '@/components/products/ProductsGrid';

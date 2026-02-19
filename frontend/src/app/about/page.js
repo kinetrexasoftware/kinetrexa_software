@@ -47,7 +47,20 @@ export default async function AboutPage() {
             <MissionVision mission={c.mission} vision={c.vision} />
             <WhatMakesUsDifferent content={c.whatMakesUsDifferent} />
             <OurProcess content={c.ourProcess} />
-            <Team team={c.team || []} />
+            <Team team={c.team && c.team.length > 0 ? c.team : [
+                {
+                    name: "Hridesh Kumar Chaurasia",
+                    role: "Director",
+                    bio: "Leading the strategic vision and operational excellence of KineTrexa.",
+                    image: ""
+                },
+                {
+                    name: "Shahe Aalam Ansari",
+                    role: "Director",
+                    bio: "Driving technical innovation and software architecture standards.",
+                    image: ""
+                }
+            ]} />
             <TrainingPhilosophy content={c.trainingPhilosophy} />
             <OurValues content={c.ourValues} />
             <AboutCTA />

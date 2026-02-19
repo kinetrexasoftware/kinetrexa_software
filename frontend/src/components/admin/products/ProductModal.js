@@ -78,6 +78,8 @@ export default function ProductModal({ isOpen, onClose, onSubmit, initialData })
         features: [],
         gradientTheme: 'from-blue-600 to-cyan-500',
         websiteLink: '',
+        androidLink: '',
+        iosLink: '',
         isFeatured: false,
         isActive: true
     });
@@ -100,6 +102,8 @@ export default function ProductModal({ isOpen, onClose, onSubmit, initialData })
                 features: [],
                 gradientTheme: 'from-blue-600 to-cyan-500',
                 websiteLink: '',
+                androidLink: '',
+                iosLink: '',
                 isFeatured: false,
                 isActive: true
             });
@@ -227,15 +231,39 @@ export default function ProductModal({ isOpen, onClose, onSubmit, initialData })
                         </div>
                     </div>
 
-                    <div className="space-y-2">
-                        <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Website Link</label>
-                        <input
-                            type="url"
-                            value={formData.websiteLink}
-                            onChange={(e) => setFormData({ ...formData, websiteLink: e.target.value })}
-                            className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
-                            placeholder="https://..."
-                        />
+
+
+                    <div className="grid md:grid-cols-3 gap-4">
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Website Link</label>
+                            <input
+                                type="url"
+                                value={formData.websiteLink}
+                                onChange={(e) => setFormData({ ...formData, websiteLink: e.target.value })}
+                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                                placeholder="https://..."
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Android Link</label>
+                            <input
+                                type="url"
+                                value={formData.androidLink}
+                                onChange={(e) => setFormData({ ...formData, androidLink: e.target.value })}
+                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                                placeholder="Play Store URL"
+                            />
+                        </div>
+                        <div className="space-y-2">
+                            <label className="text-sm font-medium text-gray-700 dark:text-gray-300">iOS Link</label>
+                            <input
+                                type="url"
+                                value={formData.iosLink}
+                                onChange={(e) => setFormData({ ...formData, iosLink: e.target.value })}
+                                className="w-full rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary-500 dark:bg-gray-800 dark:border-gray-600 dark:text-white"
+                                placeholder="App Store URL"
+                            />
+                        </div>
                     </div>
 
                     <ListInput
@@ -275,7 +303,7 @@ export default function ProductModal({ isOpen, onClose, onSubmit, initialData })
                         </button>
                     </div>
                 </form>
-            </div>
-        </div>
+            </div >
+        </div >
     );
 }

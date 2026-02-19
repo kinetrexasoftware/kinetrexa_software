@@ -20,7 +20,7 @@ export default function Footer() {
     }, []);
 
     const currentYear = new Date().getFullYear();
-    const c = content || {}; // Fallback to empty object
+    const c = content?.content || {}; // Access nested content from API response
 
     return (
         <footer className="bg-dark-bg border-t border-white/10 pt-16 pb-8">
@@ -75,14 +75,14 @@ export default function Footer() {
                             <li className="flex items-start space-x-3 text-gray-400 text-sm">
                                 <MapPin size={18} className="text-primary-400 mt-1 shrink-0" />
                                 <span>
-                                    {c.address1 || '123 Tech Park, Innovation Street,'}<br />
-                                    {c.address2 || 'Silicon Valley, India'}
+                                    {c.address1 || 'House No. 121B, Lacchiipu,'}<br />
+                                    {c.address2 || 'Gorakhpur, Uttar Pradesh, 273001'}
                                 </span>
                             </li>
                             <li className="flex items-center space-x-3 text-gray-400 text-sm">
                                 <Mail size={18} className="text-primary-400 shrink-0" />
-                                <a href={`mailto:${c.email || 'contact@kinetrexa.com'}`} className="hover:text-primary-400 transition-colors">
-                                    {c.email || 'contact@kinetrexa.com'}
+                                <a href={`mailto:${c.email || 'hello@kinetrexa.com'}`} className="hover:text-primary-400 transition-colors">
+                                    {c.email || 'hello@kinetrexa.com'}
                                 </a>
                             </li>
                             <li className="flex items-center space-x-3 text-gray-400 text-sm">
@@ -96,7 +96,10 @@ export default function Footer() {
                 </div>
 
                 <div className="border-t border-white/10 pt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-xs text-gray-500">
-                    <p>&copy; {currentYear} KineTrexa. All rights reserved.</p>
+                    <div className="flex flex-col md:flex-row gap-4 items-center">
+                        <p>&copy; {currentYear} KineTrexa Software Pvt. Ltd. All rights reserved.</p>
+                        <p>CIN: U62011UP2026PTC243617</p>
+                    </div>
                     <div className="flex space-x-6">
                         <Link href="/privacy" className="hover:text-white transition-colors">Privacy Policy</Link>
                         <Link href="/terms" className="hover:text-white transition-colors">Terms of Service</Link>

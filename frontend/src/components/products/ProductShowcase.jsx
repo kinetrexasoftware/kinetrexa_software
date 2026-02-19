@@ -6,9 +6,41 @@ import { Check } from 'lucide-react';
 const ShowcaseSection = ({ product, align = "left" }) => {
     // Custom Illustration Renderers based on Product ID
     const renderIllustration = () => {
-        if (product.id === 'kineflow') {
+        if (product.id === 'homesarthi') {
             return (
                 <div className="w-full h-full relative flex items-center justify-center bg-gradient-to-br from-blue-900/40 to-cyan-900/40 p-8 overflow-hidden">
+                    <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20" />
+                    {/* Abstract Home Service App UI */}
+                    <div className="relative z-10 w-full max-w-sm">
+                        <div className="bg-dark-card border border-white/10 rounded-3xl p-4 shadow-2xl backdrop-blur-xl transform -rotate-3 hover:rotate-0 transition-transform duration-500">
+                            <div className="flex justify-between items-center mb-6">
+                                <div className="space-y-2">
+                                    <div className="h-2 w-20 bg-white/20 rounded-full" />
+                                    <div className="h-2 w-12 bg-white/10 rounded-full" />
+                                </div>
+                                <div className="w-10 h-10 rounded-full bg-brand-primary/20 flex items-center justify-center">
+                                    <div className="w-5 h-5 bg-brand-primary rounded-full" />
+                                </div>
+                            </div>
+                            <div className="grid grid-cols-2 gap-3 mb-4">
+                                <div className="h-24 rounded-2xl bg-white/5 border border-white/5 relative overflow-hidden group">
+                                    <div className="absolute inset-0 bg-brand-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                                </div>
+                                <div className="h-24 rounded-2xl bg-white/5 border border-white/5" />
+                                <div className="h-24 rounded-2xl bg-white/5 border border-white/5" />
+                                <div className="h-24 rounded-2xl bg-white/5 border border-white/5" />
+                            </div>
+                            <div className="h-12 w-full bg-brand-primary rounded-xl mt-2 relative overflow-hidden">
+                                <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent translate-x-[-100%] animate-[shimmer_2s_infinite]" />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="absolute -bottom-20 -left-20 w-64 h-64 bg-cyan-500/20 blur-[100px] rounded-full" />
+                </div>
+            );
+        } else if (product.id === 'kineflow') {
+            return (
+                <div className="w-full h-full relative flex items-center justify-center bg-gradient-to-br from-blue-900/40 to-indigo-900/40 p-8 overflow-hidden">
                     <div className="absolute inset-0 bg-[url('/grid-pattern.svg')] opacity-20" />
                     {/* Abstract Workflow Nodes */}
                     <div className="relative z-10 w-full max-w-sm">
@@ -32,7 +64,7 @@ const ShowcaseSection = ({ product, align = "left" }) => {
                     <div className="absolute -bottom-20 -right-20 w-64 h-64 bg-blue-500/20 blur-[100px] rounded-full" />
                 </div>
             );
-        } else if (product.id === 'edumate') {
+        } else {
             return (
                 <div className="w-full h-full relative flex items-center justify-center bg-gradient-to-bl from-green-900/40 to-emerald-900/40 p-8 overflow-hidden">
                     {/* Abstract Dashboard */}
@@ -50,33 +82,6 @@ const ShowcaseSection = ({ product, align = "left" }) => {
                         </div>
                     </div>
                     <div className="absolute top-10 right-10 w-32 h-32 bg-green-500/20 blur-[80px] rounded-full" />
-                </div>
-            );
-        } else {
-            return (
-                <div className="w-full h-full relative flex items-center justify-center bg-gradient-to-tr from-orange-900/40 to-amber-900/40 p-8 overflow-hidden">
-                    {/* Abstract Vitals Monitor */}
-                    <div className="relative z-10 w-full max-w-sm space-y-4">
-                        <div className="flex items-center gap-4 bg-orange-500/10 border border-orange-500/20 p-4 rounded-xl backdrop-blur-md">
-                            <div className="text-2xl font-bold text-orange-500">98</div>
-                            <div className="h-8 flex-1 flex items-end gap-1">
-                                <div className="w-1 h-3 bg-orange-500/30" />
-                                <div className="w-1 h-5 bg-orange-500/60" />
-                                <div className="w-1 h-8 bg-orange-500" />
-                                <div className="w-1 h-4 bg-orange-500/50" />
-                                <div className="w-1 h-6 bg-orange-500/70" />
-                            </div>
-                        </div>
-                        <div className="h-32 rounded-xl border border-amber-500/20 bg-amber-500/5 relative overflow-hidden backdrop-blur-sm flex items-center justify-center">
-                            <div className="absolute inset-0 flex items-center">
-                                <div className="w-full h-px bg-amber-500/30" />
-                            </div>
-                            <svg className="w-full h-16 text-amber-500" viewBox="0 0 100 20" fill="none" preserveAspectRatio="none">
-                                <path d="M0 10 H20 L25 5 L30 15 L35 10 H100" stroke="currentColor" strokeWidth="2" vectorEffect="non-scaling-stroke" className="animate-pulse" />
-                            </svg>
-                        </div>
-                    </div>
-                    <div className="absolute bottom-0 left-0 w-48 h-48 bg-orange-500/20 blur-[100px] rounded-full" />
                 </div>
             );
         }
@@ -106,7 +111,7 @@ const ShowcaseSection = ({ product, align = "left" }) => {
                         viewport={{ once: true }}
                         className="flex-1"
                     >
-                        <div className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border ${product.statusColor.includes('blue') ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : product.statusColor.includes('green') ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-orange-500/10 text-orange-400 border-orange-500/20'}`}>
+                        <div className={`inline-flex items-center px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider mb-6 border ${product.statusColor.includes('blue') ? 'bg-blue-500/10 text-blue-400 border-blue-500/20' : product.statusColor.includes('green') ? 'bg-green-500/10 text-green-400 border-green-500/20' : 'bg-cyan-500/10 text-cyan-400 border-cyan-500/20'}`}>
                             <div className="w-2 h-2 rounded-full bg-current mr-2 animate-pulse" />
                             {product.status}
                         </div>
@@ -147,6 +152,25 @@ const ShowcaseSection = ({ product, align = "left" }) => {
 export default function ProductShowcase() {
     const products = [
         {
+            id: "homesarthi",
+            name: "HomeSarthi",
+            subtitle: "Your trusted home service partner.",
+            description: "HomeSarthi connects you with verified professionals for all your home service needs. From plumbing to electrical work, get it done with a tap.",
+            status: "Live Now",
+            statusColor: "text-cyan-400",
+            bgGradient: "bg-gradient-to-br from-blue-500 to-cyan-400",
+            color: "text-cyan-400",
+            lightColor: "bg-cyan-500",
+            btnColor: "bg-cyan-600 hover:bg-cyan-700",
+            cta: "Download App",
+            features: [
+                "Instant professional booking",
+                "Transparent pricing model",
+                "Real-time service tracking",
+                "Verified & background-checked partners"
+            ]
+        },
+        {
             id: "kineflow",
             name: "KineFlow",
             subtitle: "Automate the boring stuff. Focus on growth.",
@@ -165,13 +189,12 @@ export default function ProductShowcase() {
                 "Secure data handling with encryption"
             ]
         },
-        // ... (rest of products array remains same structure, just color tweaks if needed)
         {
             id: "edumate",
             name: "EduMate",
             subtitle: "Modernizing education management.",
             description: "A comprehensive LMS and ERP solution for schools and colleges. EduMate simplifies administrative tasks, attendance tracking, and grading, allowing educators to focus on teaching.",
-            status: "Live Now",
+            status: "Coming Soon",
             statusColor: "text-green-400",
             bgGradient: "bg-gradient-to-br from-green-500 to-emerald-400",
             color: "text-green-400",
@@ -183,25 +206,6 @@ export default function ProductShowcase() {
                 "Online fee payment and invoicing",
                 "Assignment submission and grading system",
                 "Automated report card generation"
-            ]
-        },
-        {
-            id: "healthsync",
-            name: "HealthSync",
-            subtitle: "Healthcare, simplified.",
-            description: "HealthSync is an upcoming platform for clinic management and remote patient monitoring. It bridges the communication gap between doctors and patients.",
-            status: "Coming Soon",
-            statusColor: "text-orange-400",
-            bgGradient: "bg-gradient-to-br from-orange-500 to-amber-400",
-            color: "text-orange-400",
-            lightColor: "bg-orange-500",
-            btnColor: "bg-orange-600 hover:bg-orange-700",
-            cta: "Join Waitlist",
-            features: [
-                "Appointment scheduling & telemedicine",
-                "Digital electronic health records (EHR)",
-                "Prescription management",
-                "Patient vitals tracking dashboard"
             ]
         }
     ];

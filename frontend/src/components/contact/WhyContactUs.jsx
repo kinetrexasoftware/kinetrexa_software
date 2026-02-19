@@ -22,7 +22,7 @@ const reasons = [
 
 export default function WhyContactUs() {
     return (
-        <section className="section bg-white dark:bg-dark-bg border-t border-gray-100 dark:border-gray-800">
+        <section className="section-padding bg-white dark:bg-dark-bg border-t border-gray-100 dark:border-gray-800">
             <div className="container-custom">
                 <div className="grid md:grid-cols-3 gap-8">
                     {reasons.map((reason, index) => (

@@ -61,7 +61,7 @@
   }
 
   .glass-card-hover {
-    @apply glass-card hover:-translate-y-2 hover:border-brand-primary/50 hover:shadow-[0_20px_40px_-15px_rgba(14,165,233,0.3)];
+    @apply glass-card hover:-translate-y-2 hover:border-brand-primary/50 hover:shadow-premium-hover;
   }
 
   /* Status Badges */
@@ -70,15 +70,15 @@
   }
 
   .badge-live {
-    @apply bg-green-500/10 text-green-400 border-green-500/20 shadow-[0_0_15px_rgba(34,197,94,0.2)];
+    @apply bg-green-500/10 text-green-400 border-green-500/20 shadow-badge-live;
   }
 
   .badge-beta {
-    @apply bg-purple-500/10 text-purple-400 border-purple-500/20 shadow-[0_0_15px_rgba(168,85,247,0.2)];
+    @apply bg-purple-500/10 text-purple-400 border-purple-500/20 shadow-badge-beta;
   }
 
   .badge-coming {
-    @apply bg-amber-500/10 text-amber-400 border-amber-500/20 shadow-[0_0_15px_rgba(245,158,11,0.2)];
+    @apply bg-amber-500/10 text-amber-400 border-amber-500/20 shadow-badge-coming;
   }
 
   /* Premium Gradient Text */

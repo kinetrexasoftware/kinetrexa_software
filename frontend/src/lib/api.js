@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 const api = axios.create({
-    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api',
+    baseURL: process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002/api',
     withCredentials: true
 });
 
@@ -73,7 +73,7 @@ export const internshipAPI = {
     getAll: (filters) => api.get('/internships', { params: filters }),
     getOne: (id) => api.get(`/internships/${id}`),
     // Use raw axios to handle 409 status manually without interceptor interference
-    apply: (data) => axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api'}/internships/apply`, data, {
+    apply: (data) => axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002/api'}/internships/apply`, data, {
         headers: { 'Content-Type': 'multipart/form-data' },
         withCredentials: true,
         validateStatus: (status) => status < 500 // Allow 409/400 to resolve instead of throw

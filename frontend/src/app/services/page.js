@@ -81,52 +81,77 @@ export default function ServicesPage() {
                             ))}
                         </div>
                     ) : (
-                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                        <div className="space-y-32">
                             {services.map((service, index) => {
                                 const IconComponent = iconMap[service.icon] || Layers;
+                                const isEven = index % 2 === 0;
 
                                 return (
                                     <motion.div
                                         key={service.id || index}
-                                        initial={{ opacity: 0, y: 30 }}
+                                        initial={{ opacity: 0, y: 50 }}
                                         whileInView={{ opacity: 1, y: 0 }}
-                                        viewport={{ once: true }}
-                                        transition={{ delay: index * 0.1 }}
+                                        viewport={{ once: true, margin: "-100px" }}
+                                        transition={{ duration: 0.8 }}
+                                        className={`flex flex-col ${isEven ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 lg:gap-20 items-center`}
                                     >
-                                        <Link href={`/services/${service.slug}`} className="block h-full group">
-                                            <div className="relative h-full p-8 glass-card-hover border-white/5 flex flex-col transition-all duration-300 hover:-translate-y-2">
-
-                                                {/* Icon */}
-                                                <div className="mb-8 relative">
-                                                    <div className="w-16 h-16 rounded-2xl bg-brand-primary/10 flex items-center justify-center border border-brand-primary/20 relative z-10 group-hover:scale-110 transition-transform duration-500">
-                                                        <IconComponent className="w-8 h-8 text-brand-primary group-hover:drop-shadow-[0_0_8px_rgba(14,165,233,0.6)] transition-all" />
+                                        {/* Image Side */}
+                                        <div className="w-full lg:w-1/2 relative group">
+                                            <div className="absolute inset-0 bg-brand-primary/20 blur-3xl rounded-full opacity-0 group-hover:opacity-30 transition-opacity duration-700" />
+                                            <div className="relative rounded-3xl overflow-hidden border border-white/10 shadow-2xl bg-dark-card/50 backdrop-blur-sm aspect-[4/3] group-hover:scale-[1.02] transition-transform duration-500">
+                                                {/* Fallback to icon if no image, but we expect images now */}
+                                                {service.coverImage && service.coverImage !== 'default-service.jpg' ? (
+                                                    <img
+                                                        src={service.coverImage}
+                                                        alt={service.title}
+                                                        className="w-full h-full object-cover"
+                                                    />
+                                                ) : (
+                                                    <div className="w-full h-full flex items-center justify-center bg-brand-primary/5">
+                                                        <IconComponent className="w-24 h-24 text-brand-primary/50" />
                                                     </div>
-                                                    <div className="absolute inset-0 w-16 h-16 bg-brand-primary/20 blur-xl rounded-full scale-150 opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
-                                                </div>
+                                                )}
 
-                                                <h3 className="text-2xl font-bold mb-4 text-text-primary group-hover:text-brand-primary transition-colors">
-                                                    {service.title}
-                                                </h3>
-
-                                                <p className="text-text-secondary mb-8 leading-relaxed flex-grow line-clamp-3">
-                                                    {service.shortDescription || service.description}
-                                                </p>
-
-                                                <div className="space-y-3 mb-8">
-                                                    {service.features?.slice(0, 3).map((feature, i) => (
-                                                        <div key={i} className="flex items-start gap-2 text-sm text-gray-400">
-                                                            <CheckCircle2 size={16} className="text-brand-primary mt-0.5" />
-                                                            <span>{feature}</span>
-                                                        </div>
-                                                    ))}
-                                                </div>
-
-                                                <div className="flex items-center gap-2 text-brand-primary font-bold text-sm group-hover:gap-3 transition-all mt-auto">
-                                                    <span>View Details</span>
-                                                    <ArrowRight size={16} />
-                                                </div>
+                                                {/* Overlay Gradient */}
+                                                <div className="absolute inset-0 bg-gradient-to-t from-dark-bg/80 via-transparent to-transparent" />
                                             </div>
-                                        </Link>
+                                        </div>
+
+                                        {/* Content Side */}
+                                        <div className="w-full lg:w-1/2 space-y-8">
+                                            <div className="inline-flex items-center gap-3 px-4 py-2 rounded-full bg-white/5 border border-white/10 w-fit">
+                                                <IconComponent className="w-5 h-5 text-brand-primary" />
+                                                <span className="text-sm font-medium text-brand-secondary">{service.category || 'Service'}</span>
+                                            </div>
+
+                                            <h2 className="text-4xl md:text-5xl font-bold">
+                                                <span className="text-white">{service.title}</span>
+                                            </h2>
+
+                                            <p className="text-lg text-text-secondary leading-relaxed">
+                                                {service.description || service.shortDescription}
+                                            </p>
+
+                                            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                                                {service.features?.slice(0, 6).map((feature, i) => (
+                                                    <div key={i} className="flex items-start gap-3 group/feature">
+                                                        <div className="mt-1 w-5 h-5 rounded-full bg-brand-primary/10 flex items-center justify-center shrink-0 group-hover/feature:bg-brand-primary/20 transition-colors">
+                                                            <CheckCircle2 size={12} className="text-brand-primary" />
+                                                        </div>
+                                                        <span className="text-text-primary/80 group-hover/feature:text-white transition-colors">{feature}</span>
+                                                    </div>
+                                                ))}
+                                            </div>
+
+                                            <div className="pt-4">
+                                                <Link href="/contact">
+                                                    <Button variant="outline" className="gap-2 group/btn">
+                                                        <span>Get Started</span>
+                                                        <ArrowRight size={16} className="group-hover/btn:translate-x-1 transition-transform" />
+                                                    </Button>
+                                                </Link>
+                                            </div>
+                                        </div>
                                     </motion.div>
                                 );
                             })}

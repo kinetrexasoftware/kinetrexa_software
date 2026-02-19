@@ -50,22 +50,22 @@ export default function ContactInfo() {
         {
             icon: Mail,
             title: 'Electronic Mail',
-            value: content.email || 'hello@kinetrexa.com',
+            value: content?.content?.email || 'hello@kinetrexa.com',
             subValue: 'Response time: < 24h',
             color: 'blue'
         },
         {
             icon: Phone,
             title: 'Hotline',
-            value: content.phone || '+1 (555) 123-4567',
-            subValue: 'Mon-Fri, 9am - 6pm EST',
+            value: content?.content?.phone || '+91 98765 43210',
+            subValue: 'Mon-Sat, 9am - 6pm IST',
             color: 'green'
         },
         {
             icon: MapPin,
             title: 'Headquarters',
-            value: content.address1 || 'Silicon Valley, CA',
-            subValue: content.address2 || '123 Tech Blvd, Innovation City',
+            value: content?.content?.address1 || 'Gorakhpur, Uttar Pradesh',
+            subValue: content?.content?.address2 || 'House No. 121B, Lacchiipu, 273001',
             color: 'purple'
         },
         {

@@ -11,7 +11,7 @@ const steps = [
 
 export default function InternshipProcess() {
     return (
-        <section className="section bg-gray-50 dark:bg-gray-900/50">
+        <section className="section-padding bg-gray-50 dark:bg-gray-900/50">
             <div className="container-custom">
                 <div className="text-center mb-16">
                     <h2 className="text-3xl md:text-4xl font-bold mb-4">Internship Process</h2>

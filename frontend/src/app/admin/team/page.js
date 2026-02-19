@@ -9,19 +9,17 @@ const uploadImage = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
 
-    // adminApi is an axios instance, but for file upload we might want to let axios set headers
-    // or just use fetch for simplicity with FormData
-    const token = typeof window !== 'undefined' ? localStorage.getItem('token') : ''; // fallback if needed, though adminApi handles auth via cookies usually? 
-    // Wait, adminApi.js commented out token interceptor saying "NO LONGER NEEDED FOR COOKIES".
-    // So we assume cookies.
-
-    const res = await adminApi.post('/upload/image', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        }
-    });
-
-    return res.data;
+    try {
+        const res = await adminApi.post('/upload/image', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data'
+            }
+        });
+        return res.data; // Expecting { success: true, imageUrl: ... }
+    } catch (error) {
+        console.error("Upload error:", error);
+        throw error;
+    }
 };
 
 export default function TeamPage() {
@@ -43,7 +41,13 @@ export default function TeamPage() {
         try {
             setLoading(true);
             const content = await fetchContent('about');
-            const teamData = content?.team || [];
+            // Handle both legacy array and new object structure
+            let teamData = [];
+            if (content.team) {
+                teamData = content.team;
+            } else if (Array.isArray(content)) {
+                teamData = content;
+            }
             setTeam(teamData);
         } catch (error) {
             console.error(error);
@@ -68,10 +72,13 @@ export default function TeamPage() {
             }
 
             // Update Backend
-            // Using adminApi to PUT to /content/section/about
+            // Update Backend
+            // Wrap in content object as expected by backend
             await adminApi.put('/content/section/about', {
-                team: updatedTeam,
-                teamVisible: true
+                content: {
+                    team: updatedTeam,
+                    teamVisible: true
+                }
             });
 
             setTeam(updatedTeam);
@@ -89,7 +96,9 @@ export default function TeamPage() {
         try {
             const updatedTeam = team.filter((_, idx) => idx !== index);
             await adminApi.put('/content/section/about', {
-                team: updatedTeam
+                content: {
+                    team: updatedTeam
+                }
             });
             setTeam(updatedTeam);
             toast.success('Member removed');
