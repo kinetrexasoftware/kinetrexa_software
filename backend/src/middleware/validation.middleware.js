@@ -33,16 +33,6 @@ const validate = (schema, property = 'body') => {
  * Validate MongoDB ObjectId
  * Can be used as middleware for route params
  */
-const validateObjectId = (paramName = 'id') => (req, res, next) => {
-    if (!mongoose.Types.ObjectId.isValid(req.params[paramName])) {
-        // If ErrorResponse is not available, return simple error
-        // But we imported it
-        return next(new ErrorResponse(`Invalid Resource ID: ${req.params[paramName]}`, 404));
-    }
-    next();
-};
-
 module.exports = {
-    validate,
-    validateObjectId
+    validate
 };

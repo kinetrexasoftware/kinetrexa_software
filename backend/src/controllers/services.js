@@ -2,7 +2,10 @@ const Service = require('../models/Service');
 
 exports.getPublicServices = async (req, res, next) => {
     try {
-        const services = await Service.find({ isActive: true }).sort({ order: 1 });
+        // Fetch all and filter in JS to be robust against data type mismatches (string vs boolean in DB)
+        const allServices = await Service.find({}).sort({ order: 1 });
+        const services = allServices.filter(s => s.isActive === true || s.isActive === 'true' || s.active === true);
+
         res.status(200).json({ success: true, count: services.length, data: services });
     } catch (err) {
         res.status(500).json({ success: false, error: 'Server Error' });

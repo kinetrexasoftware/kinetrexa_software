@@ -79,6 +79,7 @@ app.use('/api/settings', require('./routes/settings'));
 app.use('/api/documents', require('./routes/documents'));
 app.use('/api/tasks', require('./routes/tasks'));
 app.use('/api/payments', require('./routes/payment'));
+app.use('/api/upload', require('./routes/upload.routes'));
 
 // 404 handler
 app.use(notFound);

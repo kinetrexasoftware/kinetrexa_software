@@ -16,10 +16,10 @@ const seedGlobalContent = async () => {
                 twitter: 'https://twitter.com/kinetrexa',
                 instagram: 'https://instagram.com/kinetrexa',
                 linkedin: 'https://linkedin.com/company/kinetrexa',
-                email: 'contact@kinetrexa.com',
+                email: 'hello@kinetrexa.com',
                 phone: '+91 98765 43210',
-                address1: '123 Tech Park, Innovation Street,',
-                address2: 'Silicon Valley, India'
+                address1: 'House No. 121B, Lacchiipu,',
+                address2: 'Gorakhpur, Uttar Pradesh, 273001'
             },
             isPublished: true
         };

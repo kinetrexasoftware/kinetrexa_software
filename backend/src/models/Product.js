@@ -44,6 +44,8 @@ const ProductSchema = new mongoose.Schema({
         default: 'from-blue-600 to-cyan-500'
     },
     websiteLink: String,
+    androidLink: String,
+    iosLink: String,
     isFeatured: {
         type: Boolean,
         default: false

@@ -14,7 +14,7 @@ const {
 } = require('../controllers/contentController');
 const { protect, optionalAuth } = require('../middleware/auth.middleware');
 const authorize = require('../middleware/role.middleware');
-const { validateObjectId } = require('../middleware/validation.middleware');
+const validateObjectId = require('../middleware/validateObjectId');
 
 // Public routes
 router.get('/', getAllContent);
