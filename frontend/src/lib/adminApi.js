@@ -270,7 +270,7 @@ export const fetchContent = async (section) => {
         return response.content || response.data?.content || {};
     } catch (error) {
         // If 404, return empty object (content doesn't exist yet)
-        if (error.status === 404) return {};
+        if (error.response?.status === 404) return {};
         throw error;
     }
 };

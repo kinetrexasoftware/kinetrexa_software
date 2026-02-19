@@ -6,6 +6,10 @@ const CareerSchema = new mongoose.Schema({
         required: [true, 'Please add a job role title'],
         trim: true
     },
+    image: {
+        type: String,
+        default: '' // URL from Cloudinary
+    },
     location: {
         type: String,
         required: true,

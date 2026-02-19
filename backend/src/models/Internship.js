@@ -8,6 +8,10 @@ const InternshipSchema = new mongoose.Schema({
         trim: true,
         maxlength: [100, 'Title can not be more than 100 characters']
     },
+    image: {
+        type: String,
+        default: ''
+    },
     slug: String,
     description: {
         type: String,
@@ -130,7 +134,15 @@ InternshipSchema.pre('save', function (next) {
 
 // Helper method to check if can apply
 InternshipSchema.methods.canApply = function () {
-    const isExpired = new Date() > this.deadline;
+    // Grace period: Allow applications until the end of the deadline day
+    const deadlineDate = new Date(this.deadline);
+    deadlineDate.setHours(23, 59, 59, 999);
+
+    // Safety: If deadline is before start date, treat start date as the absolute last call
+    const effectiveDeadline = this.startDate > deadlineDate ? new Date(this.startDate) : deadlineDate;
+    effectiveDeadline.setHours(23, 59, 59, 999);
+
+    const isExpired = new Date() > effectiveDeadline;
     return this.isActive && !isExpired;
 };
 

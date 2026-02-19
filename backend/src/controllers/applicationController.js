@@ -484,9 +484,17 @@ exports.updateStatus = asyncHandler(async (req, res, next) => {
     sendSelectionEmail(application.applicant.email, emailData)
       .catch(err => console.error('Selection email failed:', err.message));
   } else if (oldStatus !== 'completed' && status === 'completed') {
+    // Generate Certificate ID if not exists
+    if (!application.certificateId) {
+      const randomSuffix = Math.random().toString(36).substring(2, 8).toUpperCase();
+      application.certificateId = `CERT-${application.applicationId}-${randomSuffix}`;
+      await application.save();
+    }
+
     const certEmailData = {
       name: `${application.applicant.firstName} ${application.applicant.lastName}`,
-      domain: application.domain
+      domain: application.domain,
+      certificateId: application.certificateId
     };
     sendCertificateAvailableEmail(application.applicant.email, certEmailData)
       .catch(err => console.error('Certificate email failed:', err.message));
@@ -616,16 +624,25 @@ exports.trackApplication = asyncHandler(async (req, res, next) => {
  * @access  Public
  */
 exports.verifyApplication = asyncHandler(async (req, res, next) => {
-  const { email, applicationId } = req.body;
+  const { email, applicationId, certificateId } = req.body;
 
-  if (!email || !applicationId) {
-    return next(new ErrorResponse('Please provide email and application ID', 400));
+  let query = {};
+
+  // Mode 1: Certificate Verification (ID only)
+  if (certificateId) {
+    query = { certificateId: certificateId.toUpperCase() };
+  }
+  // Mode 2: Status Verification (Email + App ID)
+  else if (email && applicationId) {
+    query = {
+      'applicant.email': email,
+      applicationId: applicationId.toUpperCase()
+    };
+  } else {
+    return next(new ErrorResponse('Please provide valid verification details (Email + ID or Certificate ID)', 400));
   }
 
-  const application = await Application.findOne({
-    'applicant.email': email,
-    applicationId: applicationId.toUpperCase()
-  }).populate('internshipId', 'title endDate');
+  const application = await Application.findOne(query).populate('internshipId', 'title endDate');
 
   if (!application) {
     return next(new ErrorResponse('No application found with provided details.', 404));
@@ -642,6 +659,7 @@ exports.verifyApplication = asyncHandler(async (req, res, next) => {
     application: {
       id: application._id,
       applicationId: application.applicationId,
+      certificateId: application.certificateId, // Include in response
       status: application.status,
       name: `${application.applicant.firstName} ${application.applicant.lastName}`,
       domain: application.domain,

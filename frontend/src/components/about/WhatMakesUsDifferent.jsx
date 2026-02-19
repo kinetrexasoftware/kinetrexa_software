@@ -13,7 +13,30 @@ export default function WhatMakesUsDifferent({ content }) {
         items = []
     } = content || {};
 
-    const itemsToDisplay = items.length > 0 ? items : [];
+    const defaultItems = [
+        {
+            icon: 'Zap',
+            title: 'Engineering Excellence',
+            desc: 'We don\'t just write code; we engineer robust, scalable solutions designed to handle high-traffic loads and complex business logic without breaking a sweat.'
+        },
+        {
+            icon: 'Users',
+            title: 'Product-First Mindset',
+            desc: 'We see beyond the tickets. We align technical decisions with your business goals, ensuring every feature drives growth, engagement, and ROI.'
+        },
+        {
+            icon: 'Shield',
+            title: 'Security by Design',
+            desc: 'Security isn\'t an afterthought. We implement enterprise-grade protection, encryption, and compliance measures from the very first line of code.'
+        },
+        {
+            icon: 'Check',
+            title: 'Transparent Delivery',
+            desc: 'No black boxes. You get clear timelines, real-time progress updates, and direct access to the engineering team throughout the entire lifecycle.'
+        }
+    ];
+
+    const itemsToDisplay = items.length > 0 ? items : defaultItems;
 
     return (
         <section className="section-padding relative overflow-hidden bg-dark-bg">

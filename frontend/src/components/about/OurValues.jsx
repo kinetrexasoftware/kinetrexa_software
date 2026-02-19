@@ -13,7 +13,35 @@ export default function OurValues({ content }) {
         values = []
     } = content || {};
 
-    const valuesToDisplay = values.length > 0 ? values : [];
+    const defaultValues = [
+        {
+            icon: 'Heart',
+            name: 'Passion for Tech',
+            desc: 'We are builders at heart, driven by a genuine love for solving complex problems with elegant code.'
+        },
+        {
+            icon: 'Lightbulb',
+            name: 'Constant Innovation',
+            desc: 'We never settle. We continuously explore new frameworks, patterns, and technologies to stay ahead.'
+        },
+        {
+            icon: 'TrendingUp',
+            name: 'Measurable Growth',
+            desc: 'We focus on outcomes, not just output. Every solution we build is designed to drive real business value.'
+        },
+        {
+            icon: 'Users',
+            name: 'Collaborative Spirit',
+            desc: 'Great software is a team sport. We work transparently with our clients, treating their success as our own.'
+        },
+        {
+            icon: 'ShieldCheck',
+            name: 'Uncompromised Quality',
+            desc: 'We hold ourselves to the highest standards of code quality, performance, and security.'
+        }
+    ];
+
+    const valuesToDisplay = values.length > 0 ? values : defaultValues;
 
     return (
         <section className="section-padding relative overflow-hidden bg-dark-bg">

@@ -12,7 +12,10 @@ export const dynamic = 'force-dynamic';
 
 async function getAboutContent() {
     try {
-        const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
+        const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002/api';
+        const API_URL = API_BASE.replace(/\/$/, '');
+
+
         const res = await fetch(`${API_URL}/content/about`, {
             cache: 'no-store'
         });
@@ -23,7 +26,6 @@ async function getAboutContent() {
         }
 
         const data = await res.json();
-        // API returns { success: true, content: { ... } }
         return data.content || {};
     } catch (error) {
         console.error("Error fetching about content:", error);
@@ -45,7 +47,7 @@ export default async function AboutPage() {
             <MissionVision mission={c.mission} vision={c.vision} />
             <WhatMakesUsDifferent content={c.whatMakesUsDifferent} />
             <OurProcess content={c.ourProcess} />
-            {c.teamVisible && <Team team={c.team || []} />}
+            <Team team={c.team || []} />
             <TrainingPhilosophy content={c.trainingPhilosophy} />
             <OurValues content={c.ourValues} />
             <AboutCTA />

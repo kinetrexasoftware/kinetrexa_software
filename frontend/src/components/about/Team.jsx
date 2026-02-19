@@ -4,10 +4,12 @@ import { Card, CardContent } from '@/components/ui/Card';
 import { Linkedin, Twitter, Github } from 'lucide-react';
 
 export default function Team({ team }) {
-    // Fallback if no team provided (but effectively we want it controlled by Admin)
-    const members = team || [];
+    // If no data provided, show empty state or nothing
+    if (!team || team.length === 0) {
+        return null;
+    }
 
-    if (members.length === 0) return null;
+    const members = team;
 
     return (
         <section className="section-padding relative overflow-hidden bg-dark-bg">
@@ -29,12 +31,20 @@ export default function Team({ team }) {
                             transition={{ delay: index * 0.1 }}
                             className="glass-card-hover border-white/5 p-8 text-center group"
                         >
-                            <div className="relative w-28 h-28 mx-auto mb-8">
-                                <div className="absolute inset-0 bg-brand-primary/20 rounded-2xl blur-xl group-hover:blur-2xl transition-all" />
-                                <div className="relative w-full h-full rounded-2xl bg-dark-secondary border border-white/10 flex items-center justify-center overflow-hidden group-hover:border-brand-primary/30 transition-colors">
-                                    <div className="text-4xl font-black brand-gradient-text">
-                                        {member.name ? member.name.charAt(0) : '?'}
-                                    </div>
+                            <div className="relative w-32 h-32 mx-auto mb-8">
+                                <div className="absolute inset-0 bg-brand-primary/20 rounded-full blur-xl group-hover:blur-2xl transition-all" />
+                                <div className="relative w-full h-full rounded-full bg-dark-secondary border-2 border-white/10 flex items-center justify-center overflow-hidden group-hover:border-brand-primary/50 transition-colors">
+                                    {member.image ? (
+                                        <img
+                                            src={member.image}
+                                            alt={member.name}
+                                            className="w-full h-full object-cover"
+                                        />
+                                    ) : (
+                                        <div className="text-4xl font-black brand-gradient-text">
+                                            {member.name ? member.name.charAt(0) : '?'}
+                                        </div>
+                                    )}
                                 </div>
                             </div>
 

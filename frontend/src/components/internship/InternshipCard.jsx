@@ -12,6 +12,16 @@ export default function InternshipCard({ internship, onApply }) {
     return (
         <div className="glass-card-hover border-white/5 h-full flex flex-col group relative">
             <div className="flex-grow p-8 flex flex-col">
+                {/* Banner Image */}
+                {internship.image && (
+                    <div className="h-48 w-full overflow-hidden mb-6 rounded-t-xl -mx-8 -mt-8">
+                        <img
+                            src={internship.image}
+                            alt={internship.title}
+                            className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+                        />
+                    </div>
+                )}
                 {/* Header Tags */}
                 <div className="flex items-center gap-3 mb-6">
                     <span className={`badge ${internship.type === 'Paid' ? 'badge-beta' : 'bg-brand-primary/10 text-brand-primary border-brand-primary/20'}`}>

@@ -8,7 +8,30 @@ export default function OurProcess({ content }) {
         steps = []
     } = content || {};
 
-    const stepsToDisplay = steps.length > 0 ? steps : [];
+    const defaultSteps = [
+        {
+            number: '01',
+            title: 'Discovery & Strategy',
+            desc: 'We dive deep into your requirements, market challenges, and user needs to architect a technical roadmap that aligns with your long-term vision.'
+        },
+        {
+            number: '02',
+            title: 'Architecture & Design',
+            desc: 'Our engineers design scalable systems while our designers craft intuitive, high-fidelity interfaces, ensuring a solid foundation before coding begins.'
+        },
+        {
+            number: '03',
+            title: 'Agile Development',
+            desc: 'We build in iterative sprints, delivering testable features every two weeks. This ensures rapid progress and allows for flexibility as requirements evolve.'
+        },
+        {
+            number: '04',
+            title: 'Launch & Scale',
+            desc: 'We handle the complete deployment pipeline, set up monitoring, and optimize production performance to ensure your product is ready for real-world growth.'
+        }
+    ];
+
+    const stepsToDisplay = steps.length > 0 ? steps : defaultSteps;
 
     return (
         <section className="section-padding relative overflow-hidden bg-dark-bg">

@@ -1,22 +1,27 @@
-'use client';
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Plus, Edit2, Trash2, X, Save, Loader2, Briefcase, MapPin, Upload } from 'lucide-react';
-import adminApi, { fetchAdminCareers, createCareer, updateCareer, deleteCareer } from '@/lib/adminApi';
+import { api } from '../services/api';
 import toast from 'react-hot-toast';
 
 const uploadImage = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
-    const res = await adminApi.post('/upload/image', formData, {
+    const token = localStorage.getItem('token');
+
+    const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5002/api'}/upload/image`, {
+        method: 'POST',
         headers: {
-            'Content-Type': 'multipart/form-data'
-        }
+            'Authorization': `Bearer ${token}`
+        },
+        body: formData
     });
-    return res.data;
+
+    if (!res.ok) throw new Error('Image upload failed');
+    return await res.json();
 };
 
-export default function CareersPage() {
+const Careers = () => {
     const [jobs, setJobs] = useState([]);
     const [loading, setLoading] = useState(true);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -28,7 +33,7 @@ export default function CareersPage() {
         type: 'Full-time',
         location: 'Remote',
         description: '',
-        requirements: '',
+        requirements: '', // text area, split by newline
         salary: '',
         image: '',
         status: 'Active'
@@ -41,17 +46,8 @@ export default function CareersPage() {
     const fetchJobs = async () => {
         try {
             setLoading(true);
-            const data = await fetchAdminCareers();
-            // fetchAdminCareers returns response.data (array of jobs) via interceptor?
-            // checking adminApi.js: return response || []; or similar.
-            // Let's assume it returns the array or wrapper.
-            // Actually fetchAdminCareers: return adminApi.get('/careers'); 
-            // The interceptor returns response.data.data or response.data.
-            // So data should be the array or object containing array.
-
-            // Safety check
-            const jobsArray = Array.isArray(data) ? data : (data.data || []);
-            setJobs(jobsArray);
+            const { data } = await api.get('/careers');
+            setJobs(data.data || []);
         } catch (error) {
             console.error(error);
             toast.error('Failed to load jobs');
@@ -65,16 +61,14 @@ export default function CareersPage() {
         try {
             const payload = {
                 ...formData,
-                requirements: typeof formData.requirements === 'string'
-                    ? formData.requirements.split('\n').filter(r => r.trim())
-                    : formData.requirements
+                requirements: formData.requirements.split('\n').filter(r => r.trim())
             };
 
             if (editingJob) {
-                await updateCareer(editingJob._id || editingJob.id, payload);
+                await api.put(`/careers/${editingJob._id}`, payload);
                 toast.success('Job updated');
             } else {
-                await createCareer(payload);
+                await api.post('/careers', payload);
                 toast.success('Job posted');
             }
 
@@ -89,8 +83,8 @@ export default function CareersPage() {
     const handleDelete = async (id) => {
         if (!window.confirm('Are you sure you want to delete this job posting?')) return;
         try {
-            await deleteCareer(id);
-            setJobs(jobs.filter(j => (j._id || j.id) !== id));
+            await api.delete(`/careers/${id}`);
+            setJobs(jobs.filter(j => j._id !== id));
             toast.success('Job deleted');
         } catch (error) {
             toast.error('Failed to delete');
@@ -104,13 +98,8 @@ export default function CareersPage() {
         try {
             setUploading(true);
             const res = await uploadImage(file);
-            const imageUrl = res.imageUrl || res.url;
-            if (imageUrl) {
-                setFormData({ ...formData, image: imageUrl });
-                toast.success('Banner uploaded');
-            } else {
-                throw new Error('Invalid upload response');
-            }
+            setFormData({ ...formData, image: res.imageUrl });
+            toast.success('Banner uploaded');
         } catch (error) {
             toast.error('Upload failed');
         } finally {
@@ -123,7 +112,7 @@ export default function CareersPage() {
             setEditingJob(job);
             setFormData({
                 ...job,
-                requirements: Array.isArray(job.requirements) ? job.requirements.join('\n') : (job.requirements || '')
+                requirements: job.requirements ? job.requirements.join('\n') : ''
             });
         } else {
             setEditingJob(null);
@@ -146,18 +135,18 @@ export default function CareersPage() {
         setEditingJob(null);
     };
 
-    if (loading) return <div className="flex justify-center p-12"><Loader2 className="animate-spin text-primary-600" /></div>;
+    if (loading) return <div className="flex justify-center p-12"><Loader2 className="animate-spin text-brand-primary" /></div>;
 
     return (
         <div className="p-6">
             <div className="flex justify-between items-center mb-8">
                 <div>
-                    <h1 className="text-2xl font-bold text-gray-900 dark:text-white mb-2">Careers Management</h1>
-                    <p className="text-gray-500 text-sm">Manage job openings and opportunities.</p>
+                    <h1 className="text-3xl font-bold text-white mb-2">Careers Management</h1>
+                    <p className="text-text-secondary">Manage job openings and opportunities.</p>
                 </div>
                 <button
                     onClick={() => openModal()}
-                    className="flex items-center gap-2 px-4 py-2 bg-primary-600 hover:bg-primary-700 text-white rounded-lg transition-colors shadow-sm"
+                    className="flex items-center gap-2 px-4 py-2 bg-brand-primary hover:bg-brand-primary/90 text-white rounded-lg transition-colors"
                 >
                     <Plus size={18} /> Post Job
                 </button>
@@ -166,26 +155,26 @@ export default function CareersPage() {
             <div className="grid grid-cols-1 gap-4">
                 {jobs.map((job) => (
                     <motion.div
-                        key={job._id || job.id}
+                        key={job._id}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
-                        className="bg-white dark:bg-gray-800 border border-gray-100 dark:border-gray-700 rounded-xl p-6 flex justify-between items-center group hover:border-primary-500/30 transition-all shadow-sm"
+                        className="bg-dark-secondary/30 border border-white/10 rounded-xl p-6 flex justify-between items-center group hover:border-brand-primary/30 transition-all"
                     >
                         <div className="flex gap-4 items-center">
                             {job.image ? (
-                                <img src={job.image} alt={job.role} className="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-gray-600" />
+                                <img src={job.image} alt={job.role} className="w-16 h-16 rounded-lg object-cover border border-white/10" />
                             ) : (
-                                <div className="w-16 h-16 rounded-lg bg-gray-100 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 flex items-center justify-center text-primary-600 dark:text-primary-400">
+                                <div className="w-16 h-16 rounded-lg bg-dark-bg border border-white/10 flex items-center justify-center text-brand-primary">
                                     <Briefcase size={24} />
                                 </div>
                             )}
 
                             <div>
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-1">{job.role}</h3>
-                                <div className="flex gap-4 text-sm text-gray-500 dark:text-gray-400">
+                                <h3 className="text-xl font-bold text-white mb-1">{job.role}</h3>
+                                <div className="flex gap-4 text-sm text-text-secondary">
                                     <span className="flex items-center gap-1"><Briefcase size={14} /> {job.type}</span>
                                     <span className="flex items-center gap-1"><MapPin size={14} /> {job.location}</span>
-                                    <span className={`px-2 py-0.5 rounded text-xs ${job.status === 'Active' ? 'bg-green-100 text-green-700 dark:bg-green-900/30 dark:text-green-400' : 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-400'}`}>
+                                    <span className={`px-2 py-0.5 rounded text-xs ${job.status === 'Active' ? 'bg-green-500/10 text-green-400' : 'bg-red-500/10 text-red-400'}`}>
                                         {job.status}
                                     </span>
                                 </div>
@@ -193,52 +182,52 @@ export default function CareersPage() {
                         </div>
 
                         <div className="flex gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
-                            <button onClick={() => openModal(job)} className="p-2 bg-blue-50 text-blue-600 hover:bg-blue-100 rounded-lg dark:bg-blue-900/30 dark:text-blue-400"><Edit2 size={18} /></button>
-                            <button onClick={() => handleDelete(job._id || job.id)} className="p-2 bg-red-50 text-red-600 hover:bg-red-100 rounded-lg dark:bg-red-900/30 dark:text-red-400"><Trash2 size={18} /></button>
+                            <button onClick={() => openModal(job)} className="p-2 bg-blue-500/10 text-blue-400 hover:bg-blue-500/20 rounded-lg"><Edit2 size={18} /></button>
+                            <button onClick={() => handleDelete(job._id)} className="p-2 bg-red-500/10 text-red-400 hover:bg-red-500/20 rounded-lg"><Trash2 size={18} /></button>
                         </div>
                     </motion.div>
                 ))}
 
                 {jobs.length === 0 && (
-                    <div className="text-center py-20 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-dashed border-gray-200 dark:border-gray-700">
-                        <p className="text-gray-500">No active job postings. Create one to get started.</p>
+                    <div className="text-center py-20 bg-dark-secondary/10 rounded-xl border border-white/5 border-dashed">
+                        <p className="text-text-secondary">No active job postings. Create one to get started.</p>
                     </div>
                 )}
             </div>
 
             <AnimatePresence>
                 {isModalOpen && (
-                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm">
+                    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 p-4">
                         <motion.div
                             initial={{ scale: 0.95, opacity: 0 }}
                             animate={{ scale: 1, opacity: 1 }}
                             exit={{ scale: 0.95, opacity: 0 }}
-                            className="bg-white dark:bg-gray-900 border border-gray-100 dark:border-gray-700 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto shadow-xl"
+                            className="bg-dark-card border border-white/10 rounded-2xl p-6 w-full max-w-2xl max-h-[90vh] overflow-y-auto"
                         >
                             <div className="flex justify-between items-center mb-6">
-                                <h3 className="text-xl font-bold text-gray-900 dark:text-white">
+                                <h3 className="text-xl font-bold text-white">
                                     {editingJob ? 'Edit Job Posting' : 'Post New Job'}
                                 </h3>
-                                <button onClick={closeModal}><X className="text-gray-500 hover:text-gray-900 dark:hover:text-white" /></button>
+                                <button onClick={closeModal}><X className="text-text-secondary hover:text-white" /></button>
                             </div>
 
                             <form onSubmit={handleSave} className="space-y-4">
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Job Role</label>
+                                        <label className="block text-sm font-medium text-text-secondary mb-1">Job Role</label>
                                         <input
                                             required
                                             value={formData.role}
                                             onChange={e => setFormData({ ...formData, role: e.target.value })}
-                                            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                                            className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-2 text-white focus:border-brand-primary outline-none"
                                         />
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Status</label>
+                                        <label className="block text-sm font-medium text-text-secondary mb-1">Status</label>
                                         <select
                                             value={formData.status}
                                             onChange={e => setFormData({ ...formData, status: e.target.value })}
-                                            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                                            className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-2 text-white focus:border-brand-primary outline-none"
                                         >
                                             <option value="Active">Active</option>
                                             <option value="Closed">Closed</option>
@@ -248,11 +237,11 @@ export default function CareersPage() {
 
                                 <div className="grid grid-cols-2 gap-4">
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Type</label>
+                                        <label className="block text-sm font-medium text-text-secondary mb-1">Type</label>
                                         <select
                                             value={formData.type}
                                             onChange={e => setFormData({ ...formData, type: e.target.value })}
-                                            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                                            className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-2 text-white focus:border-brand-primary outline-none"
                                         >
                                             <option value="Full-time">Full-time</option>
                                             <option value="Part-time">Part-time</option>
@@ -261,47 +250,47 @@ export default function CareersPage() {
                                         </select>
                                     </div>
                                     <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location</label>
+                                        <label className="block text-sm font-medium text-text-secondary mb-1">Location</label>
                                         <input
                                             required
                                             value={formData.location}
                                             onChange={e => setFormData({ ...formData, location: e.target.value })}
-                                            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none transition-all"
+                                            className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-2 text-white focus:border-brand-primary outline-none"
                                         />
                                     </div>
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description</label>
+                                    <label className="block text-sm font-medium text-text-secondary mb-1">Description</label>
                                     <textarea
                                         required
                                         rows={3}
                                         value={formData.description}
                                         onChange={e => setFormData({ ...formData, description: e.target.value })}
-                                        className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none resize-none transition-all"
+                                        className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-2 text-white focus:border-brand-primary outline-none resize-none"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Requirements (One per line)</label>
+                                    <label className="block text-sm font-medium text-text-secondary mb-1">Requirements (One per line)</label>
                                     <textarea
                                         rows={4}
                                         value={formData.requirements}
                                         onChange={e => setFormData({ ...formData, requirements: e.target.value })}
                                         placeholder="- React.js experience&#10;- Knowledge of Node.js"
-                                        className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none resize-none transition-all"
+                                        className="w-full bg-dark-bg border border-white/10 rounded-lg px-4 py-2 text-white focus:border-brand-primary outline-none resize-none"
                                     />
                                 </div>
 
                                 <div>
-                                    <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Job Banner (Optional)</label>
+                                    <label className="block text-sm font-medium text-text-secondary mb-1">Job Banner (Optional)</label>
                                     <div className="flex items-center gap-4">
                                         {formData.image && (
-                                            <img src={formData.image} alt="Preview" className="w-16 h-16 rounded-lg object-cover border border-gray-200 dark:border-gray-700" />
+                                            <img src={formData.image} alt="Preview" className="w-16 h-16 rounded-lg object-cover border border-white/10" />
                                         )}
-                                        <label className="flex items-center gap-2 px-4 py-2 bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg cursor-pointer hover:border-primary-500 transition-colors">
-                                            {uploading ? <Loader2 className="animate-spin text-primary-600" size={18} /> : <Upload size={18} className="text-gray-400" />}
-                                            <span className="text-sm text-gray-500 dark:text-gray-400">Upload Image</span>
+                                        <label className="flex items-center gap-2 px-4 py-2 bg-dark-bg border border-white/10 rounded-lg cursor-pointer hover:border-brand-primary/50 transition-colors">
+                                            {uploading ? <Loader2 className="animate-spin text-brand-primary" size={18} /> : <Upload size={18} className="text-gray-400" />}
+                                            <span className="text-sm text-text-secondary">Upload Image</span>
                                             <input type="file" className="hidden" accept="image/*" onChange={handleImageUpload} disabled={uploading} />
                                         </label>
                                     </div>
@@ -310,7 +299,7 @@ export default function CareersPage() {
                                 <button
                                     type="submit"
                                     disabled={uploading}
-                                    className="w-full mt-4 bg-primary-600 hover:bg-primary-700 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50 shadow-md"
+                                    className="w-full mt-4 bg-brand-primary hover:bg-brand-primary/90 text-white font-bold py-3 rounded-lg flex items-center justify-center gap-2 transition-colors disabled:opacity-50"
                                 >
                                     <Save size={18} /> {editingJob ? 'Update Job' : 'Post Job'}
                                 </button>
@@ -322,3 +311,5 @@ export default function CareersPage() {
         </div>
     );
 };
+
+export default Careers;

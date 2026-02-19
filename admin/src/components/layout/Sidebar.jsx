@@ -6,6 +6,7 @@ import {
     FiBriefcase,
     FiMail,
     FiEdit,
+    FiUsers,
     FiLogOut
 } from 'react-icons/fi';
 
@@ -16,6 +17,8 @@ const Sidebar = () => {
         { path: '/dashboard', icon: FiHome, label: 'Dashboard' },
         { path: '/applications', icon: FiFileText, label: 'Applications' },
         { path: '/internships', icon: FiBriefcase, label: 'Internships' },
+        { path: '/careers', icon: FiBriefcase, label: 'Careers' },
+        { path: '/team', icon: FiUsers, label: 'Team' },
         { path: '/contacts', icon: FiMail, label: 'Contacts' },
         { path: '/content', icon: FiEdit, label: 'Content' },
     ];

@@ -12,6 +12,13 @@ const ApplicationSchema = new mongoose.Schema({
         uppercase: true,
         index: true
     },
+    certificateId: {
+        type: String,
+        unique: true,
+        uppercase: true,
+        sparse: true, // Allows multiple null values
+        index: true
+    },
     // New fields
     domain: {
         type: String,

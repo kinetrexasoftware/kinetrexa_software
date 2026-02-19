@@ -27,11 +27,14 @@ const philosophy = [
 
 export default function ProductPhilosophy() {
     return (
-        <section className="section bg-gray-50 dark:bg-gray-900/50">
+        <section className="section bg-dark-bg relative overflow-hidden">
+            {/* Glow */}
+            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[600px] bg-brand-primary/5 blur-[120px] rounded-full -z-10" />
+
             <div className="container-custom">
                 <div className="text-center mb-16">
-                    <h2 className="text-3xl md:text-4xl font-bold mb-4">Our Build Philosophy</h2>
-                    <p className="text-lg text-gray-600 dark:text-gray-400 max-w-2xl mx-auto">
+                    <h2 className="text-3xl md:text-5xl font-bold mb-6 brand-gradient-text">Our Build Philosophy</h2>
+                    <p className="text-lg text-text-secondary max-w-2xl mx-auto">
                         We adhere to strict principles to ensure every product we release is world-class.
                     </p>
                 </div>
@@ -44,13 +47,13 @@ export default function ProductPhilosophy() {
                             whileInView={{ opacity: 1, y: 0 }}
                             viewport={{ once: true }}
                             transition={{ delay: index * 0.1 }}
-                            className="bg-white dark:bg-gray-800 p-6 rounded-2xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md transition-shadow"
+                            className="glass-card-hover border-white/5 p-8 rounded-2xl group"
                         >
-                            <div className="w-12 h-12 bg-gray-100 dark:bg-gray-700 text-primary-600 rounded-lg flex items-center justify-center mb-6">
-                                <item.icon size={24} />
+                            <div className="w-14 h-14 bg-brand-primary/10 text-brand-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-brand-primary group-hover:text-white transition-all duration-300">
+                                <item.icon size={28} />
                             </div>
-                            <h3 className="text-lg font-bold mb-3">{item.title}</h3>
-                            <p className="text-sm text-gray-600 dark:text-gray-400 leading-relaxed">
+                            <h3 className="text-xl font-bold mb-3 text-text-primary group-hover:text-brand-primary transition-colors">{item.title}</h3>
+                            <p className="text-sm text-text-secondary leading-relaxed">
                                 {item.desc}
                             </p>
                         </motion.div>

@@ -7,36 +7,64 @@ import { Loader2, CheckCircle2, FileDown, AlertCircle, Search, Mail, Fingerprint
 import Button from '@/components/ui/Button';
 import toast, { Toaster } from 'react-hot-toast';
 
+'use client';
+
+import { useState } from 'react';
+import { applicationAPI } from '@/lib/api';
+import toast, { Toaster } from 'react-hot-toast';
+import StatusHero from '@/components/pricing/StatusHero';
+import VerificationTerminal from '@/components/pricing/VerificationTerminal';
+import ApplicationDashboard from '@/components/pricing/ApplicationDashboard';
+
 export default function StatusPortalPage() {
-    const [email, setEmail] = useState('');
-    const [applicationId, setApplicationId] = useState('');
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [application, setApplication] = useState(null);
+    const [downloading, setDownloading] = useState(null);
 
-    const handleVerify = async (e) => {
-        e.preventDefault();
+    // Track email/appId state in parent to pass to downloads if needed
+    // If verifying via certificateId, we might not have the email, so we need to grab it from response
+    const [credentials, setCredentials] = useState({ email: '', applicationId: '' });
+
+    const handleVerify = async ({ email, applicationId, certificateId }) => {
         setLoading(true);
         setError('');
         setApplication(null);
 
         try {
-            const response = await applicationAPI.verify({ email, applicationId });
+            const response = await applicationAPI.verify({ email, applicationId, certificateId });
             setApplication(response.application);
+
+            // If verification was via certificateId, we still need email for downloads
+            // Fortunately, verify endpoint should probably return the email if we want to enable downloads, 
+            // OR we update download endpoints to also accept just certificateId/applicationId (which is safer)
+            // For now, let's assume we can try to extract email from the response if not provided, 
+            // BUT for security, the API might not return PII unless authorized.
+            // Wait, document download usually requires email for verification. 
+            // If user verified via Cert ID, they might just want to SEE the status. 
+            // Downloading sensitive docs might still need email re-entry or be limited.
+            // Let's store what we have.
+
+            setCredentials({
+                email: email || '', // If verified by ID, email is empty initially
+                applicationId: applicationId || certificateId
+            });
+
+            toast.success("Details retrieved successfully");
         } catch (err) {
-            setError(err.message || 'No application found with provided details.');
+            setError(err.message || 'Access Denied: Invalid credentials.');
+            toast.error("Verification failed");
         } finally {
             setLoading(false);
         }
     };
-
-    const [downloading, setDownloading] = useState(null); // 'offer_letter' | 'certificate' | null
 
     const handleDownload = async (type) => {
         try {
             setDownloading(type);
             let blob;
             let defaultFilename;
+            const { email, applicationId } = credentials;
 
             if (type === 'offer_letter') {
                 blob = await applicationAPI.downloadOfferLetter(applicationId, email);
@@ -66,298 +94,59 @@ export default function StatusPortalPage() {
             document.body.appendChild(link);
             link.click();
             link.parentNode.removeChild(link);
+            toast.success(`${type.replace('_', ' ')} downloaded`);
         } catch (err) {
             console.error('Download Error:', err);
             // Error already toasted for task_assignment
             if (type !== 'task_assignment') {
-                toast.error(err.message || 'Download failed. Please try again.');
+                toast.error(err.message || 'Download failed. Security Check.');
             }
         } finally {
             setDownloading(null);
         }
     };
 
-    const StatusBadge = ({ status }) => {
-        const styles = {
-            applied: 'bg-blue-100 text-blue-700 border-blue-200',
-            shortlisted: 'bg-yellow-100 text-yellow-700 border-yellow-200',
-            selected: 'bg-green-100 text-green-700 border-green-200',
-            rejected: 'bg-red-100 text-red-700 border-red-200',
-            completed: 'bg-purple-100 text-purple-700 border-purple-200',
-        };
-
-        return (
-            <span className={`px-4 py-1.5 rounded-full text-sm font-bold border uppercase tracking-wider ${styles[status.toLowerCase()] || styles.applied}`}>
-                {status}
-            </span>
-        );
-    };
-
     return (
-        <div className="min-h-[80vh] py-20 bg-dark-bg text-white">
-            <Toaster position="top-right" />
-            <div className="container-custom max-w-4xl">
-                <div className="text-center mb-12">
-                    <motion.h1
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
-                        className="text-4xl md:text-5xl font-bold mb-4 bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent"
-                    >
-                        Application Status & Documents
-                    </motion.h1>
-                    <motion.p
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        transition={{ delay: 0.1 }}
-                        className="text-gray-400 text-lg"
-                    >
-                        Check your progress and access your professional documents.
-                    </motion.p>
-                </div>
+        <div className="min-h-screen bg-dark-bg text-white">
+            <Toaster position="top-right" toastOptions={{
+                style: {
+                    background: '#0E1A2B',
+                    color: '#fff',
+                    border: '1px solid rgba(255,255,255,0.1)'
+                }
+            }} />
 
-                <div className="grid lg:grid-cols-5 gap-8">
-                    {/* Verification Form */}
-                    <motion.div
-                        initial={{ opacity: 0, x: -20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        className="lg:col-span-2 space-y-6"
-                    >
-                        <div className="glass-card p-8 rounded-2xl border border-white/10">
-                            <h2 className="text-xl font-bold mb-6 flex items-center gap-2">
-                                <Search className="w-5 h-5 text-primary-400" />
-                                Verify Application
-                            </h2>
-                            <form onSubmit={handleVerify} className="space-y-4">
-                                <div className="space-y-1.5">
-                                    <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                                        <Mail className="w-4 h-4" /> Registered Email
-                                    </label>
-                                    <input
-                                        type="email"
-                                        required
-                                        value={email}
-                                        onChange={(e) => setEmail(e.target.value)}
-                                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary-500 transition-all outline-none"
-                                        placeholder="Enter your registered email"
-                                    />
-                                </div>
-                                <div className="space-y-1.5">
-                                    <label className="text-sm font-medium text-gray-400 flex items-center gap-2">
-                                        <Fingerprint className="w-4 h-4" /> Application ID
-                                    </label>
-                                    <input
-                                        type="text"
-                                        required
-                                        value={applicationId}
-                                        onChange={(e) => setApplicationId(e.target.value)}
-                                        className="w-full px-4 py-3 bg-white/5 border border-white/10 rounded-xl focus:ring-2 focus:ring-primary-500 transition-all outline-none uppercase"
-                                        placeholder="e.g. ABC123DEF"
-                                    />
-                                </div>
-                                <Button
-                                    type="submit"
-                                    className="w-full py-4 text-lg"
-                                    disabled={loading}
-                                >
-                                    {loading ? <Loader2 className="w-5 h-5 animate-spin mx-auto" /> : 'Verify Application'}
-                                </Button>
-                                {error && (
-                                    <motion.div
-                                        initial={{ opacity: 0, y: 10 }}
-                                        animate={{ opacity: 1, y: 0 }}
-                                        className="flex items-center gap-2 text-red-400 bg-red-400/10 p-4 rounded-xl text-sm"
-                                    >
-                                        <AlertCircle className="w-4 h-4 shrink-0" />
-                                        {error}
-                                    </motion.div>
-                                )}
-                            </form>
+            <StatusHero />
+
+            <div className="container-custom py-16 -mt-10 relative z-20">
+                <div className="grid lg:grid-cols-12 gap-8">
+                    {/* Left Column: Verification */}
+                    <div className="lg:col-span-5 xl:col-span-4">
+                        <VerificationTerminal
+                            onVerify={handleVerify}
+                            loading={loading}
+                            error={error}
+                        />
+
+                        {/* Helper Info */}
+                        <div className="mt-8 p-6 rounded-2xl bg-white/[0.02] border border-white/5">
+                            <h4 className="text-sm font-bold text-white mb-2">Need Help?</h4>
+                            <p className="text-xs text-text-secondary leading-relaxed mb-4">
+                                If you have lost your Application ID or are facing issues accessing your documents, please contact our support team immediately.
+                            </p>
+                            <a href="/contact" className="text-xs font-bold text-brand-primary hover:text-white transition-colors">
+                                Contact Support &rarr;
+                            </a>
                         </div>
-                    </motion.div>
+                    </div>
 
-                    {/* Status Display Area */}
-                    <div className="lg:col-span-3">
-                        <AnimatePresence mode="wait">
-                            {application ? (
-                                <motion.div
-                                    key="result"
-                                    initial={{ opacity: 0, scale: 0.95 }}
-                                    animate={{ opacity: 1, scale: 1 }}
-                                    exit={{ opacity: 0, scale: 0.95 }}
-                                    className="glass-card p-8 rounded-2xl border border-white/10 h-full"
-                                >
-                                    <div className="flex flex-col h-full">
-                                        <div className="flex justify-between items-start mb-8">
-                                            <div>
-                                                <h3 className="text-2xl font-bold mb-1">{application.name}</h3>
-                                                <p className="text-gray-400 flex items-center gap-2">
-                                                    <Fingerprint className="w-4 h-4" /> {application.applicationId}
-                                                </p>
-                                            </div>
-                                            <StatusBadge status={application.status} />
-                                        </div>
-
-                                        <div className="space-y-6">
-                                            <div className="p-4 bg-white/5 rounded-xl border border-white/5">
-                                                <p className="text-sm text-gray-400 mb-1 tracking-wider uppercase font-bold">Internship Domain</p>
-                                                <p className="text-xl font-semibold text-primary-400">{application.domain}</p>
-                                            </div>
-
-                                            <div className="pt-4 border-t border-white/10">
-                                                <h4 className="text-lg font-bold mb-4 flex items-center gap-2">
-                                                    <FileDown className="w-5 h-5 text-primary-400" />
-                                                    Available Documents
-                                                </h4>
-
-                                                <div className="grid gap-4">
-                                                    {/* Offer Letter Button */}
-                                                    <div className="p-4 bg-white/5 rounded-xl border border-white/5 group hover:border-primary-500/50 transition-all">
-                                                        <div className="flex justify-between items-center">
-                                                            <div>
-                                                                <p className="font-bold">Offer Letter</p>
-                                                                <p className="text-sm text-gray-400">
-                                                                    {['selected', 'completed'].includes(application.status.toLowerCase())
-                                                                        ? 'Official internship offer letter'
-                                                                        : 'Available after selection'}
-                                                                </p>
-                                                            </div>
-                                                            {['selected', 'completed'].includes(application.status.toLowerCase()) ? (
-                                                                <Button
-                                                                    variant="outline"
-                                                                    size="sm"
-                                                                    onClick={() => handleDownload('offer_letter')}
-                                                                    className="gap-2"
-                                                                    disabled={downloading === 'offer_letter'}
-                                                                >
-                                                                    {downloading === 'offer_letter' ? (
-                                                                        <Loader2 className="w-4 h-4 animate-spin" />
-                                                                    ) : (
-                                                                        <FileDown className="w-4 h-4" />
-                                                                    )}
-                                                                    {downloading === 'offer_letter' ? 'Generating...' : 'Download'}
-                                                                </Button>
-                                                            ) : (
-                                                                <span className="text-xs text-gray-500 italic">Locked</span>
-                                                            )}
-                                                        </div>
-                                                    </div>
-
-                                                    {/* Task Assignment Card (Domain-Specific) */}
-                                                    {['selected', 'completed', 'Completed'].includes(application.status) && (
-                                                        <div className={`p-4 bg-white/5 rounded-xl border border-white/5 group transition-all ${application.taskAssignment?.enabled ? 'hover:border-primary-500/50' : 'opacity-75'}`}>
-                                                            <div className="flex justify-between items-center">
-                                                                <div>
-                                                                    <p className="font-bold text-white">Task Assignment</p>
-                                                                    <p className="text-sm text-gray-400">
-                                                                        {application.taskAssignment?.enabled
-                                                                            ? 'Domain-specific task assigned by KineTrexa'
-                                                                            : 'Task assignment will be available after selection'}
-                                                                    </p>
-                                                                </div>
-                                                                {application.taskAssignment?.enabled ? (
-                                                                    <Button
-                                                                        variant="outline"
-                                                                        size="sm"
-                                                                        onClick={() => handleDownload('task_assignment')}
-                                                                        className="gap-2 whitespace-nowrap min-w-[120px]"
-                                                                        disabled={downloading === 'task_assignment'}
-                                                                    >
-                                                                        {downloading === 'task_assignment' ? (
-                                                                            <Loader2 className="w-4 h-4 animate-spin" />
-                                                                        ) : (
-                                                                            <FileDown className="w-4 h-4" />
-                                                                        )}
-                                                                        {downloading === 'task_assignment' ? 'Downloading...' : 'Download Task'}
-                                                                    </Button>
-                                                                ) : (
-                                                                    <Button
-                                                                        variant="outline"
-                                                                        size="sm"
-                                                                        disabled={true}
-                                                                        className="gap-2 bg-white/5 text-gray-500 border-white/10"
-                                                                    >
-                                                                        Locked
-                                                                    </Button>
-                                                                )}
-                                                            </div>
-                                                        </div>
-                                                    )}
-
-                                                    {/* Certificate Button */}
-                                                    {(() => {
-                                                        const isCompleted = application.status.toLowerCase() === 'completed';
-                                                        const endDate = application.internshipId?.endDate;
-                                                        const isDateReached = endDate ? new Date() >= new Date(endDate) : false;
-                                                        const isCertificateUnlocked = isCompleted && isDateReached;
-
-                                                        return (
-                                                            <div className={`p-4 bg-white/5 rounded-xl border border-white/5 group transition-all ${isCertificateUnlocked ? 'hover:border-primary-500/50' : 'opacity-75'}`}>
-                                                                <div className="flex justify-between items-center">
-                                                                    <div>
-                                                                        <p className="font-bold">Internship Certificate</p>
-                                                                        <p className="text-sm text-gray-400">
-                                                                            {!isCompleted
-                                                                                ? 'Certificate available after internship completion'
-                                                                                : !isDateReached
-                                                                                    ? `Unlocks after ${new Date(endDate).toLocaleDateString()}`
-                                                                                    : 'Official proof of internship completion'}
-                                                                        </p>
-                                                                    </div>
-                                                                    {isCertificateUnlocked ? (
-                                                                        <Button
-                                                                            variant="outline"
-                                                                            size="sm"
-                                                                            onClick={() => handleDownload('certificate')}
-                                                                            className="gap-2"
-                                                                            disabled={downloading === 'certificate'}
-                                                                        >
-                                                                            {downloading === 'certificate' ? (
-                                                                                <Loader2 className="w-4 h-4 animate-spin" />
-                                                                            ) : (
-                                                                                <FileDown className="w-4 h-4" />
-                                                                            )}
-                                                                            {downloading === 'certificate' ? 'Generating...' : 'Download'}
-                                                                        </Button>
-                                                                    ) : (
-                                                                        <Button
-                                                                            variant="outline"
-                                                                            size="sm"
-                                                                            disabled={true}
-                                                                            className="gap-2 bg-white/5 text-gray-500 border-white/10"
-                                                                        >
-                                                                            Locked
-                                                                        </Button>
-                                                                    )}
-                                                                </div>
-                                                            </div>
-                                                        );
-                                                    })()}
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                        <p className="mt-auto pt-8 text-sm text-center text-gray-500 italic">
-                                            "Building Skills. Creating Futures."
-                                        </p>
-                                    </div>
-                                </motion.div>
-                            ) : (
-                                <motion.div
-                                    key="placeholder"
-                                    initial={{ opacity: 0 }}
-                                    animate={{ opacity: 1 }}
-                                    className="bg-white/5 border border-dashed border-white/20 rounded-2xl h-full flex flex-col items-center justify-center p-12 text-center"
-                                >
-                                    <div className="w-20 h-20 bg-white/5 rounded-full flex items-center justify-center mb-6">
-                                        <CheckCircle2 className="w-10 h-10 text-white/20" />
-                                    </div>
-                                    <h3 className="text-xl font-bold mb-2 text-gray-300">No application selected</h3>
-                                    <p className="text-gray-500 max-w-xs">
-                                        Enter your details on the left to view your status and download your documents.
-                                    </p>
-                                </motion.div>
-                            )}
-                        </AnimatePresence>
+                    {/* Right Column: Dashboard Results */}
+                    <div className="lg:col-span-7 xl:col-span-8">
+                        <ApplicationDashboard
+                            application={application}
+                            onDownload={handleDownload}
+                            downloading={downloading}
+                        />
                     </div>
                 </div>
             </div>

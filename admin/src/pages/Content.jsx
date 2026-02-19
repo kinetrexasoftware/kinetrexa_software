@@ -1,12 +1,20 @@
+import TeamManager from '../components/content/TeamManager';
+
 const Content = () => {
     return (
         <div className="content-page">
-            <div className="page-header">
-                <h1>Content Management</h1>
-                <p className="page-description">Manage website content</p>
+            <div className="page-header mb-8">
+                <h1 className="text-3xl font-bold text-white mb-2">Content Management</h1>
+                <p className="text-text-secondary">Manage website content and assets</p>
             </div>
-            <div className="page-content">
-                <p>Content management coming soon...</p>
+
+            <div className="space-y-12">
+                {/* Team Management Section */}
+                <section>
+                    <TeamManager />
+                </section>
+
+                {/* Other content sections can be added here */}
             </div>
         </div>
     );

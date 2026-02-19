@@ -116,6 +116,15 @@ exports.updateInternship = asyncHandler(async (req, res, next) => {
 
   // Use Object.assign and save() to trigger pre-save hooks
   Object.assign(internship, req.body);
+
+  // Auto-Reopen: If deadline is extended to the future, ensure internship is Active
+  if (req.body.deadline && new Date(req.body.deadline) > new Date()) {
+    // Verify we aren't explicitly closing it in the same request
+    if (req.body.isActive === undefined) {
+      internship.isActive = true;
+    }
+  }
+
   await internship.save();
 
   res.status(200).json({

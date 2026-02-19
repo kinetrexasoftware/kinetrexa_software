@@ -5,6 +5,8 @@ import Login from './pages/Login';
 import Dashboard from './pages/Dashboard';
 import Applications from './pages/Applications';
 import Internships from './pages/Internships';
+import Careers from './pages/Careers';
+import Team from './pages/Team';
 import Contacts from './pages/Contacts';
 import Content from './pages/Content';
 
@@ -48,6 +50,8 @@ function App() {
                 <Route path="dashboard" element={<Dashboard />} />
                 <Route path="applications" element={<Applications />} />
                 <Route path="internships" element={<Internships />} />
+                <Route path="careers" element={<Careers />} />
+                <Route path="team" element={<Team />} />
                 <Route path="contacts" element={<Contacts />} />
                 <Route path="content" element={<Content />} />
             </Route>
