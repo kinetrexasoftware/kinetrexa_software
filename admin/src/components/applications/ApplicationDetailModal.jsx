@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { api } from '../../lib/api';
 import { format } from 'date-fns';
 import { FiX, FiMail, FiPhone, FiMapPin, FiCalendar, FiFileText } from 'react-icons/fi';
 
@@ -19,7 +19,7 @@ const ApplicationDetailModal = ({ applicationId, isOpen, onClose }) => {
         try {
             setLoading(true);
             setError(null);
-            const response = await axios.get(`/api/applications/${applicationId}`);
+            const response = await api.get(`/applications/${applicationId}`);
             setApplication(response.data.application);
         } catch (err) {
             console.error('Error fetching application details:', err);

@@ -7,7 +7,7 @@ import toast from 'react-hot-toast';
 const uploadImage = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('adminToken');
 
     const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5002/api'}/upload/image`, {
         method: 'POST',

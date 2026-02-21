@@ -8,7 +8,7 @@ import toast from 'react-hot-toast';
 const uploadImage = async (file) => {
     const formData = new FormData();
     formData.append('image', file);
-    const token = localStorage.getItem('token');
+    const token = localStorage.getItem('adminToken');
 
     const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5002/api'}/upload/image`, {
         method: 'POST',
@@ -41,8 +41,15 @@ const TeamManager = () => {
         try {
             setLoading(true);
             const { data } = await api.get('/content/about');
-            // Ensure we handle both structure types: content.team or just content array if legacy
-            const teamData = data.content?.team || [];
+            // Handle generic content response structure
+            let teamData = [];
+            if (data.content && data.content.team) {
+                teamData = data.content.team;
+            } else if (Array.isArray(data.content)) {
+                // Legacy support if content is returned as array
+                teamData = data.content;
+            }
+            console.log("Fetched team data:", teamData);
             setTeam(teamData);
         } catch (error) {
             console.error(error);

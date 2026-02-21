@@ -7,6 +7,7 @@ const allowedOrigins = [
     'https://kinetrexa.netlify.app',
     'http://localhost:3000',
     config.FRONTEND_URL,
+    config.ADMIN_URL,
     config.CORS_ORIGIN
 ];
 

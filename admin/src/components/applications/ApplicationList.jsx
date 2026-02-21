@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { api } from '../../lib/api';
 import { format } from 'date-fns';
 
 const ApplicationList = ({ onApplicationClick }) => {
@@ -21,7 +21,7 @@ const ApplicationList = ({ onApplicationClick }) => {
             if (filters.status) params.append('status', filters.status);
             if (filters.search) params.append('search', filters.search);
 
-            const response = await axios.get(`/api/applications?${params}`);
+            const response = await api.get(`/applications?${params}`);
             setApplications(response.data.applications || []);
         } catch (error) {
             console.error('Error fetching applications:', error);

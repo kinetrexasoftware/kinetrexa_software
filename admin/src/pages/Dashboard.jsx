@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios';
+import { api } from '../lib/api';
 import { FiFileText, FiUsers, FiCheckCircle, FiClock } from 'react-icons/fi';
 
 const Dashboard = () => {
@@ -15,7 +15,7 @@ const Dashboard = () => {
 
     const fetchStats = async () => {
         try {
-            const response = await axios.get('/api/applications/stats/overview');
+            const response = await api.get('/applications/stats/overview');
             setStats(response.data.stats || { total: 0, byStatus: {} });
         } catch (error) {
             console.error('Error fetching stats:', error);

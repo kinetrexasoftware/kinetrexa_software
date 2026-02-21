@@ -1,4 +1,5 @@
 import TeamManager from '../components/content/TeamManager';
+import ContactManager from '../components/content/ContactManager';
 
 const Content = () => {
     return (
@@ -12,6 +13,11 @@ const Content = () => {
                 {/* Team Management Section */}
                 <section>
                     <TeamManager />
+                </section>
+
+                {/* Contact & Social Management Section */}
+                <section>
+                    <ContactManager />
                 </section>
 
                 {/* Other content sections can be added here */}

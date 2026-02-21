@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
-import axios from 'axios';
+import { api } from '../../lib/api';
 import { formatDistanceToNow } from 'date-fns';
 import { FiBell } from 'react-icons/fi';
 import ApplicationDetailModal from '../applications/ApplicationDetailModal';
@@ -38,7 +38,7 @@ const NotificationDropdown = ({
     const fetchNotifications = async () => {
         try {
             setLoading(true);
-            const response = await axios.get('/api/notifications?limit=10');
+            const response = await api.get('/notifications?limit=10');
             setNotifications(response.data.notifications || []);
             setUnreadCount(response.data.unreadCount || 0);
         } catch (error) {
@@ -50,7 +50,7 @@ const NotificationDropdown = ({
 
     const markAsRead = async (notificationId) => {
         try {
-            await axios.put(`/api/notifications/${notificationId}/read`);
+            await api.put(`/notifications/${notificationId}/read`);
             // Update local state
             setNotifications(prev =>
                 prev.map(n => n._id === notificationId ? { ...n, isRead: true } : n)
