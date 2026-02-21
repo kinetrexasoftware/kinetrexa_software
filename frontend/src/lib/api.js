@@ -115,6 +115,11 @@ export const applicationAPI = {
     }),
 };
 
+export const paymentAPI = {
+    createOrder: (internshipId) => api.post('/payments/create-order', { internshipId }),
+    verifyPayment: (data) => api.post('/payments/verify', data),
+};
+
 export const contactAPI = {
     submit: (data) => api.post('/contacts', data),
 };

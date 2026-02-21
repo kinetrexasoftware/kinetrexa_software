@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Button from '@/components/ui/Button';
+import { careerAPI } from '@/lib/api';
 import Link from 'next/link';
 import { MapPin, Briefcase, Loader2 } from 'lucide-react';
 
@@ -12,11 +13,8 @@ export default function OpenPositions() {
     useEffect(() => {
         const fetchJobs = async () => {
             try {
-                const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002/api'}/careers`);
-                const data = await res.json();
-                if (data.success) {
-                    setPositions(data.data.filter(job => job.status === 'Active'));
-                }
+                const data = await careerAPI.getAll();
+                setPositions(data.filter(job => job.status === 'Active'));
             } catch (error) {
                 console.error('Failed to fetch jobs', error);
             } finally {

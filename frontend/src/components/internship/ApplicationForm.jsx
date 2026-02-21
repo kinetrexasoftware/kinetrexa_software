@@ -2,7 +2,8 @@
 import { useState } from 'react';
 import Input from '@/components/ui/Input';
 import Button from '@/components/ui/Button';
-import { applicationAPI, internshipAPI } from '@/lib/api';
+import { applicationAPI, internshipAPI, paymentAPI } from '@/lib/api';
+import api from '@/lib/api';
 import { toast } from 'react-hot-toast';
 import { Upload } from 'lucide-react';
 
@@ -73,18 +74,8 @@ export default function ApplicationForm({ internship, initialDomain, onSuccess, 
             }
 
             // 2. Create Razorpay Order (NO APPLICATION YET)
-            console.log("Creating payment order...");
-
-            const API_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5001/api';
-
-            const orderRes = await fetch(`${API_URL}/payments/create-order`, {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ internshipId: internship._id })
-            });
-
-            const orderData = await orderRes.json();
-            if (!orderData.success) throw new Error('Failed to create payment order');
+            const orderData = await paymentAPI.createOrder(internship._id);
+            if (!orderData) throw new Error('Failed to create payment order');
 
             const { orderId, amount, currency, key } = orderData;
 
@@ -122,12 +113,11 @@ export default function ApplicationForm({ internship, initialDomain, onSuccess, 
                         formDataToSend.append('razorpay_payment_id', response.razorpay_payment_id);
                         formDataToSend.append('razorpay_signature', response.razorpay_signature);
 
-                        const submitRes = await fetch(`${API_URL}/internships/submit-application`, {
-                            method: 'POST',
-                            body: formDataToSend // Browser sets correct Content-Type for FormData
+                        const submitRes = await api.post('/internships/submit-application', formDataToSend, {
+                            headers: { 'Content-Type': 'multipart/form-data' }
                         });
 
-                        const submitData = await submitRes.json();
+                        const submitData = submitRes; // Axios interceptor returns the data directly
 
                         if (submitData.success) {
                             toast.success('Payment Successful! Application Submitted.');
