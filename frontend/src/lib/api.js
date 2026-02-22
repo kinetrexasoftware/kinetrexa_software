@@ -70,8 +70,8 @@ export const contentAPI = {
 };
 
 export const internshipAPI = {
-    getAll: (filters) => api.get('/internships', { params: filters }),
-    getOne: (id) => api.get(`/internships/${id}`),
+    getAll: (filters) => api.get('/internships', { params: { publicView: true, ...filters } }),
+    getOne: (id) => api.get(`/internships/${id}`, { params: { publicView: true } }),
     // Use raw axios to handle 409 status manually without interceptor interference
     apply: (data) => axios.post(`${process.env.NEXT_PUBLIC_API_URL || 'http://localhost:5002/api'}/internships/apply`, data, {
         headers: { 'Content-Type': 'multipart/form-data' },

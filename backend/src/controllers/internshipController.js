@@ -8,14 +8,14 @@ const ErrorResponse = require('../utils/errorResponse');
  * @access  Public
  */
 exports.getInternships = asyncHandler(async (req, res, next) => {
-  const { type, mode, isActive, search } = req.query;
+  const { type, mode, isActive, search, publicView } = req.query;
   const { page, limit, skip } = req.pagination || { page: 1, limit: 10, skip: 0 };
 
   // Build query
   let query = {};
 
   // For public access, only show active internships
-  if (!req.admin) {
+  if (!req.admin || publicView === 'true') {
     query.isActive = true;
     query.deadline = { $gte: new Date() };
   } else {
@@ -71,7 +71,7 @@ exports.getInternship = asyncHandler(async (req, res, next) => {
   }
 
   // If not admin and internship is not active, don't show
-  if (!req.admin && !internship.isActive) {
+  if ((!req.admin || req.query.publicView === 'true') && !internship.isActive) {
     return next(new ErrorResponse('Internship not found', 404));
   }
 

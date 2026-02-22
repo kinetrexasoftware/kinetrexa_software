@@ -17,9 +17,9 @@ exports.getDashboardStats = asyncHandler(async (req, res, next) => {
 
     // Helper to calculate percentage change
     const getChange = (current, previous) => {
-        if (previous === 0) return current > 0 ? '+100%' : '0%';
+        if (previous === 0) return current > 0 ? 100 : 0;
         const change = ((current - previous) / previous) * 100;
-        return `${change > 0 ? '+' : ''}${change.toFixed(1)}%`;
+        return parseFloat(change.toFixed(1));
     };
 
     // Helper to get trend direction
@@ -66,12 +66,12 @@ exports.getDashboardStats = asyncHandler(async (req, res, next) => {
             },
             products: {
                 total: prodTotal,
-                change: '+0%',
+                change: 0,
                 trend: 'neutral'
             },
             training: {
                 total: trainTotal,
-                change: '+0%',
+                change: 0,
                 trend: 'neutral'
             },
             inquiries: {

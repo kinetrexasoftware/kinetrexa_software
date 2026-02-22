@@ -1,11 +1,12 @@
 'use client';
-import { ArrowUp, ArrowDown } from 'lucide-react';
+import { ArrowUp, ArrowDown, Minus } from 'lucide-react';
 import Link from 'next/link';
 
 export default function StatsCard({ title, value, change, trend, icon: Icon, color, link, loading }) {
     const isUp = trend === 'up';
-    const trendColor = isUp ? 'text-green-600' : 'text-red-600';
-    const trendIcon = isUp ? <ArrowUp size={14} /> : <ArrowDown size={14} />;
+    const isNeutral = trend === 'neutral';
+    const trendColor = isNeutral ? 'text-gray-500 dark:text-gray-400' : isUp ? 'text-green-600' : 'text-red-600';
+    const trendIcon = isNeutral ? <Minus size={14} /> : isUp ? <ArrowUp size={14} /> : <ArrowDown size={14} />;
 
     const content = (
         <>

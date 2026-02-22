@@ -151,7 +151,18 @@ export default function AdminDashboard() {
                                             dy={10}
                                         />
                                         <YAxis
+                                            yAxisId="left"
+                                            orientation="left"
                                             stroke="#6b7280"
+                                            fontSize={12}
+                                            tickLine={false}
+                                            axisLine={false}
+                                            tickFormatter={(value) => `${value}`}
+                                        />
+                                        <YAxis
+                                            yAxisId="right"
+                                            orientation="right"
+                                            stroke="#8b5cf6"
                                             fontSize={12}
                                             tickLine={false}
                                             axisLine={false}
@@ -164,6 +175,7 @@ export default function AdminDashboard() {
                                         />
                                         <Legend wrapperStyle={{ paddingTop: '20px' }} />
                                         <Bar
+                                            yAxisId="left"
                                             dataKey="visits"
                                             name="Website Visits"
                                             fill="#3b82f6"
@@ -171,6 +183,7 @@ export default function AdminDashboard() {
                                             maxBarSize={50}
                                         />
                                         <Bar
+                                            yAxisId="right"
                                             dataKey="applications"
                                             name="Total Applications"
                                             fill="#8b5cf6"
@@ -225,9 +238,14 @@ export default function AdminDashboard() {
                                             </p>
                                             <span className="text-xs text-gray-400 whitespace-nowrap ml-2">{item.time}</span>
                                         </div>
-                                        <p className="text-xs text-gray-500 mt-1 line-clamp-2">
-                                            <span className="font-semibold">{item.user}</span>: {item.detail}
-                                        </p>
+                                        <div className="mt-1">
+                                            <p className="text-xs font-semibold text-gray-700 dark:text-gray-300">
+                                                {item.user}
+                                            </p>
+                                            <p className="text-xs text-gray-500 line-clamp-2 mt-0.5">
+                                                {item.detail}
+                                            </p>
+                                        </div>
                                     </div>
                                 </Link>
                             ))
