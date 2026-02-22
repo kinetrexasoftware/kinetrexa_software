@@ -311,9 +311,9 @@ export default function InternshipsPage() {
 
                             <div className="pt-4 border-t border-gray-100 dark:border-gray-700 flex justify-between items-center">
                                 <div className="text-sm font-medium text-gray-900 dark:text-white">
-                                    {internship.stipend?.isPaid
-                                        ? `${internship.stipend.currency} ${internship.stipend.amount}/mo`
-                                        : 'Unpaid'}
+                                    {internship.type === 'Paid'
+                                        ? `₹${internship.amount || 0}`
+                                        : 'Free'}
                                 </div>
                                 <button
                                     onClick={() => handleToggleStatus(internship._id || internship.id, internship.isActive)}
@@ -457,68 +457,19 @@ export default function InternshipsPage() {
                                     </div>
                                 </div>
 
-                                {/* Financials group */}
-                                <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl space-y-4 border border-gray-100 dark:border-gray-700">
-                                    <h4 className="text-sm font-bold text-gray-900 dark:text-white">Financial Details</h4>
-                                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                        {/* Stipend */}
-                                        <div>
-                                            <div className="flex items-center gap-2 mb-2">
-                                                <input
-                                                    type="checkbox"
-                                                    checked={formData.stipend?.isPaid}
-                                                    onChange={e => setFormData({
-                                                        ...formData,
-                                                        stipend: { ...formData.stipend, isPaid: e.target.checked }
-                                                    })}
-                                                    className="w-4 h-4 rounded text-primary-600 focus:ring-primary-500"
-                                                />
-                                                <label className="text-sm font-medium text-gray-700 dark:text-gray-300">Paid Stipend?</label>
-                                            </div>
-                                            {formData.stipend?.isPaid && (
-                                                <div className="flex gap-2">
-                                                    <input
-                                                        type="number"
-                                                        placeholder="Amount"
-                                                        value={formData.stipend.amount}
-                                                        onChange={e => setFormData({
-                                                            ...formData,
-                                                            stipend: { ...formData.stipend, amount: Number(e.target.value) }
-                                                        })}
-                                                        className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                                    />
-                                                    <select
-                                                        value={formData.stipend.currency}
-                                                        onChange={e => setFormData({
-                                                            ...formData,
-                                                            stipend: { ...formData.stipend, currency: e.target.value }
-                                                        })}
-                                                        className="w-20 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-2 py-2 text-sm outline-none"
-                                                    >
-                                                        <option>INR</option>
-                                                        <option>USD</option>
-                                                    </select>
-                                                </div>
-                                            )}
-                                        </div>
-
-                                        {/* Application Fee (Only if Paid type) */}
-                                        {formData.type === 'Paid' && (
-                                            <div>
-                                                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">Application Fee</label>
-                                                <div className="flex gap-2">
-                                                    <input
-                                                        type="number"
-                                                        placeholder="Amount"
-                                                        value={formData.amount || 0}
-                                                        onChange={e => setFormData({ ...formData, amount: Number(e.target.value) })}
-                                                        className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
-                                                    />
-                                                </div>
-                                            </div>
-                                        )}
+                                {/* Financial details */}
+                                {formData.type === 'Paid' && (
+                                    <div className="p-4 bg-gray-50 dark:bg-gray-800/50 rounded-xl border border-gray-100 dark:border-gray-700">
+                                        <label className="block text-sm font-medium text-gray-900 dark:text-white mb-2">Price Amount (₹)</label>
+                                        <input
+                                            type="number"
+                                            placeholder="Enter amount"
+                                            value={formData.amount || ''}
+                                            onChange={e => setFormData({ ...formData, amount: Number(e.target.value) })}
+                                            className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
+                                        />
                                     </div>
-                                </div>
+                                )}
 
                                 <div>
                                     <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Technologies (comma separated)</label>
