@@ -8,15 +8,16 @@ const adminApi = axios.create({
 });
 
 // Add auth token to every request - NO LONGER NEEDED FOR COOKIES
-// adminApi.interceptors.request.use((config) => {
-//     if (typeof window !== 'undefined') {
-//         const token = sessionStorage.getItem('token');
-//         if (token) {
-//             config.headers.Authorization = `Bearer ${token}`;
-//         }
-//     }
-//     return config;
-// });
+// Add auth token to every request
+adminApi.interceptors.request.use((config) => {
+    if (typeof window !== 'undefined') {
+        const token = localStorage.getItem('adminToken');
+        if (token) {
+            config.headers.Authorization = `Bearer ${token}`;
+        }
+    }
+    return config;
+});
 
 // Helper to normalize ID
 const normalizeId = (data) => {
@@ -43,9 +44,11 @@ adminApi.interceptors.response.use(
         return normalizeId(data);
     },
     (error) => {
-        if (error.response?.status === 401 && typeof window !== 'undefined' && !window.location.pathname.includes('/login')) {
-            // Force redirect to login on 401 to prevent loops
-            window.location.href = '/admin/login';
+        if (error.response?.status === 401 && typeof window !== 'undefined') {
+            localStorage.removeItem('adminToken');
+            if (!window.location.pathname.includes('/login')) {
+                window.location.href = '/admin/login';
+            }
         }
         console.error("Admin API Error:", error.response?.data || error);
         return Promise.reject(error.response?.data || error);

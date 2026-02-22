@@ -39,7 +39,11 @@ export function AdminAuthProvider({ children }) {
         try {
             const data = await loginAdmin(email, password);
             if (data.success) {
-                setUser(data.admin || data.user); // Handle potential response variations
+                const adminData = data.admin || data.user;
+                if (data.token) {
+                    localStorage.setItem('adminToken', data.token);
+                }
+                setUser(adminData);
                 toast.success('Login Successful');
                 router.push('/admin/dashboard');
                 return { success: true };
@@ -53,6 +57,7 @@ export function AdminAuthProvider({ children }) {
 
     const logout = async () => {
         try {
+            localStorage.removeItem('adminToken');
             await logoutAdmin();
             setUser(null);
             router.push('/admin/login');
@@ -60,6 +65,7 @@ export function AdminAuthProvider({ children }) {
         } catch (error) {
             console.error('Logout failed', error);
             // Force logout on frontend anyway
+            localStorage.removeItem('adminToken');
             setUser(null);
             router.push('/admin/login');
         }
