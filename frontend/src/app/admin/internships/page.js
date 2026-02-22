@@ -466,6 +466,7 @@ export default function InternshipsPage() {
                                             placeholder="Enter amount"
                                             value={formData.amount || ''}
                                             onChange={e => setFormData({ ...formData, amount: Number(e.target.value) })}
+                                            onWheel={(e) => e.target.blur()}
                                             className="w-full bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                         />
                                     </div>
