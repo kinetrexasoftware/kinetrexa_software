@@ -485,7 +485,7 @@ export default function InternshipsPage() {
                                                             ...formData,
                                                             stipend: { ...formData.stipend, amount: Number(e.target.value) }
                                                         })}
-                                                        className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm outline-none"
+                                                        className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                     />
                                                     <select
                                                         value={formData.stipend.currency}
@@ -512,7 +512,7 @@ export default function InternshipsPage() {
                                                         placeholder="Amount"
                                                         value={formData.amount || 0}
                                                         onChange={e => setFormData({ ...formData, amount: Number(e.target.value) })}
-                                                        className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm outline-none"
+                                                        className="flex-1 bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-3 py-2 text-sm outline-none [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none"
                                                     />
                                                 </div>
                                             </div>
