@@ -552,35 +552,6 @@ export default function InternshipsPage() {
                                     />
                                 </div>
 
-                                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Requirements (one per line)</label>
-                                        <textarea
-                                            rows={4}
-                                            value={formData.requirements}
-                                            onChange={e => setFormData({ ...formData, requirements: e.target.value })}
-                                            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none resize-none"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Responsibilities (one per line)</label>
-                                        <textarea
-                                            rows={4}
-                                            value={formData.responsibilities}
-                                            onChange={e => setFormData({ ...formData, responsibilities: e.target.value })}
-                                            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none resize-none"
-                                        />
-                                    </div>
-                                    <div>
-                                        <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Perks (one per line)</label>
-                                        <textarea
-                                            rows={4}
-                                            value={formData.perks}
-                                            onChange={e => setFormData({ ...formData, perks: e.target.value })}
-                                            className="w-full bg-gray-50 dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-lg px-4 py-2 text-gray-900 dark:text-white focus:ring-2 focus:ring-primary-500 outline-none resize-none"
-                                        />
-                                    </div>
-                                </div>
 
                                 <div className="pt-4 border-t border-gray-100 dark:border-gray-700">
                                     <button
