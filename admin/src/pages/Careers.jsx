@@ -9,7 +9,7 @@ const uploadImage = async (file) => {
     formData.append('image', file);
     const token = localStorage.getItem('adminToken');
 
-    const res = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5002/api'}/upload/image`, {
+    const res = await fetch(`${import.meta.env.VITE_API_URL}/upload/image`, {
         method: 'POST',
         headers: {
             'Authorization': `Bearer ${token}`
